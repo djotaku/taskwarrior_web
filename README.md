@@ -13,4 +13,4 @@ For now I'm using the taskwarrior library developed by CoddingtonBear - the dev 
 - create the flask app running on my local machine (or a test VM for safety purposes) and make sure it can interact correctly with my taskwarrior list
 - figure out how to run taskserver and document (since their documentation is - ugh - a slideshow)
 - create a docker/podman container to run the server and this flask app
-- in parallel with various steps above, beautify with HTMX and CSS framework - most likely bulma.io.
+- in parallel with various steps above, beautify with HTMX (so use fragments) and CSS framework - most likely bulma.io.

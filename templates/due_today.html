@@ -1,0 +1,18 @@
+<HTML>
+<table>
+    <thead>
+    <th> Task </th>
+    <th> Project </th>
+    <th> Tags </th>
+    </thead>
+    <tbody>
+    {% for task in tasks %}
+    <tr>
+        <td>{{ task.description }}</td>
+        <td>{{ task.project }}</td>
+        <td>{{ task.tags }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</HTML>
