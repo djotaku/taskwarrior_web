@@ -1,0 +1,5 @@
+{% extends "layout.html" %}
+
+{% block content %}
+{{ render_partial('due_today.html', tasks=tasks) }}
+{% endblock %}
