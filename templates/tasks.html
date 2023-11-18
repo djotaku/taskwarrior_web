@@ -1,5 +1,54 @@
 {% extends "layout.html" %}
 
 {% block content %}
-{{ render_partial('due_today.html', tasks=tasks) }}
+    <section class="section">
+        <div class="container">
+            <div class="field">
+                <label class="label">Task</label>
+                <div class="control">
+                    <input class="input" type="text" placeholder="Your Task">
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Project</label>
+
+                <div class="control">
+                    <input class="input" type="text" placeholder="Project Associated with Task">
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Tags</label>
+
+                <div class="control">
+                    <input class="input" type="text" placeholder="Tags Associated with Task">
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Due Date</label>
+
+                <div class="control">
+                    <input class="input" type="text" placeholder="Due Date for Task as YYYY-MM-DD">
+                </div>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <button class="button is-link">Add Task</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div class="tabs is-boxed">
+                <ul>
+                    <li><a>Overdue</a></li>
+                    <li><a>Due Today</a></li>
+                    <li><a>Due This Month</a></li>
+                    <li><a>All Incomplete Tasks</a></li>
+                    <li><a>Completed Tasks</a></li>
+                </ul>
+            </div>
+            {{ render_partial('due_today.html', tasks=tasks) }}
+        </div>
+    </section>
 {% endblock %}
