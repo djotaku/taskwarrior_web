@@ -35,32 +35,37 @@ def tasks():
 
 @app.route('/overdue', methods=["GET", "POST"])
 def overdue():
-    print(request.args)
     if request.args:
         task.mark_task_completed(request.args['task_id'])
     overdue_tasks = task.task_list_overdue()
     return render_template('partials/task_table.html', tasks=overdue_tasks, tab="overdue")
 
 
-@app.route('/due-today')
+@app.route('/due-today', methods=["GET", "POST"])
 def due_today():
     """The tasks that have a due date of today."""
+    if request.args:
+        task.mark_task_completed(request.args['task_id'])
     today = datetime.today()
     today_tasks = task.task_list_pending(today)
-    return render_template('partials/task_table.html', tasks=today_tasks)
+    return render_template('partials/task_table.html', tasks=today_tasks, tab="due-today")
 
 
-@app.route('/due-this-month')
+@app.route('/due-this-month', methods=["GET", "POST"])
 def due_this_month():
+    if request.args:
+        task.mark_task_completed(request.args['task_id'])
     today = datetime.today().astimezone()
     month_tasks = task.task_list_pending(today - timedelta(today.day), today + timedelta(find_end(today, "month")))
-    return render_template('partials/task_table.html', tasks=month_tasks)
+    return render_template('partials/task_table.html', tasks=month_tasks, tab='due-this-month')
 
 
-@app.route('/all-incomplete')
+@app.route('/all-incomplete', methods=["GET", "POST"])
 def all_incomplete():
+    if request.args:
+        task.mark_task_completed(request.args['task_id'])
     all_incomplete_tasks = task.task_list_pending(None)
-    return render_template('partials/task_table.html', tasks=all_incomplete_tasks)
+    return render_template('partials/task_table.html', tasks=all_incomplete_tasks, tab='all-incomplete')
 
 
 @app.route('/completed')
