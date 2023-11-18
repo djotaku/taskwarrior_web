@@ -1,13 +1,25 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from flask import Flask
 from flask import render_template
+from flask import request
 import jinja_partials
 import task
 
 app = Flask(__name__)
 
 jinja_partials.register_extensions(app)
+
+
+def find_end(date: datetime, date_range: str) -> int:
+    """Find difference to end of the month."""
+    if date_range == "month":
+        if date.day in [1, 3, 5, 7, 8, 10, 12]:
+            return 31 - date.day
+        elif date.day == 2:
+            return 28 - date.day
+        else:
+            return 30 - date.day
 
 
 @app.route('/')
@@ -20,10 +32,15 @@ def tasks():
     starting_tasks = task.task_list_pending(None)
     return render_template('tasks.html', tasks=starting_tasks)
 
-@app.route('/overdue')
+
+@app.route('/overdue', methods=["GET", "POST"])
 def overdue():
+    print(request.args)
+    if request.args:
+        task.mark_task_completed(request.args['task_id'])
     overdue_tasks = task.task_list_overdue()
-    return render_template('partials/task_table.html', tasks=overdue_tasks)
+    return render_template('partials/task_table.html', tasks=overdue_tasks, tab="overdue")
+
 
 @app.route('/due-today')
 def due_today():
@@ -33,10 +50,23 @@ def due_today():
     return render_template('partials/task_table.html', tasks=today_tasks)
 
 
+@app.route('/due-this-month')
+def due_this_month():
+    today = datetime.today().astimezone()
+    month_tasks = task.task_list_pending(today - timedelta(today.day), today + timedelta(find_end(today, "month")))
+    return render_template('partials/task_table.html', tasks=month_tasks)
+
+
 @app.route('/all-incomplete')
 def all_incomplete():
     all_incomplete_tasks = task.task_list_pending(None)
     return render_template('partials/task_table.html', tasks=all_incomplete_tasks)
+
+
+@app.route('/completed')
+def completed():
+    completed_tasks = task.task_list_completed()
+    return render_template('partials/task_table.html', tasks=completed_tasks)
 
 
 if __name__ == '__main__':
