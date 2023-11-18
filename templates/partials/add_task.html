@@ -1,34 +1,34 @@
-        <div class="container">
-            <div class="field">
-                <label class="label">Task</label>
-                <div class="control">
-                    <input class="input" type="text" placeholder="Your Task">
-                </div>
-            </div>
-            <div class="field">
-                <label class="label">Project</label>
-
-                <div class="control">
-                    <input class="input" type="text" placeholder="Project Associated with Task">
-                </div>
-            </div>
-            <div class="field">
-                <label class="label">Tags</label>
-
-                <div class="control">
-                    <input class="input" type="text" placeholder="Tags Associated with Task">
-                </div>
-            </div>
-            <div class="field">
-                <label class="label">Due Date</label>
-
-                <div class="control">
-                    <input class="input" type="text" placeholder="Due Date for Task as YYYY-MM-DD">
-                </div>
-            </div>
-            <div class="field">
-                <div class="control">
-                    <button class="button is-link">Add Task</button>
-                </div>
+<div class="container">
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="field">
+            <div class="control">
+                {{ form.task.label(class="label") }}
+                {{ form.task(class="input", placeholder="Your Task") }}
             </div>
         </div>
+        <div class="field">
+            <div class="control">
+                {{ form.project.label(class="label") }}
+                {{ form.project(class="input", placeholder="Project Associated with Task") }}
+            </div>
+        </div>
+        <div class="field">
+            <div class="control">
+                {{ form.tags.label(class="label") }}
+                {{ form.tags(class="input", placeholder="Tags Associated with Task") }}
+            </div>
+        </div>
+        <div class="field">
+            <div class="control">
+                {{ form.due_date.label(class="label") }}
+                {{ form.due_date(class="input", placeholder="Due Date for Task") }}
+            </div>
+        </div>
+        <div class="field">
+            <div class="control">
+               {{ form.submit(class="button is-link") }}
+            </div>
+        </div>
+    </form>
+</div>

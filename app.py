@@ -5,9 +5,22 @@ from flask import render_template
 from flask import request
 import jinja_partials
 import task
+import json
+from flask_wtf import FlaskForm
+from wtforms import DateTimeLocalField, StringField, SubmitField
+from wtforms.validators import DataRequired
+
+
+class TaskForm(FlaskForm):
+    task = StringField('Task', validators=[DataRequired()])
+    project = StringField('Project', validators=[DataRequired()])
+    tags = StringField('Tags', validators=[DataRequired()])
+    due_date = DateTimeLocalField('Due Date', validators=[DataRequired()])
+    submit = SubmitField('Add Task')
+
 
 app = Flask(__name__)
-
+app.config.from_file("config", load=json.load)
 jinja_partials.register_extensions(app)
 
 
@@ -29,8 +42,9 @@ def hello_world():  # put application's code here
 
 @app.route('/tasks')
 def tasks():
+    form = TaskForm()
     starting_tasks = task.task_list_pending(None)
-    return render_template('tasks.html', tasks=starting_tasks)
+    return render_template('tasks.html', tasks=starting_tasks, form=form)
 
 
 @app.route('/overdue', methods=["GET", "POST"])
