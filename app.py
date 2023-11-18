@@ -3,6 +3,8 @@ from datetime import datetime, timedelta
 from flask import Flask
 from flask import render_template
 from flask import request
+from flask import url_for
+from flask import redirect
 import jinja_partials
 import task
 import json
@@ -40,9 +42,13 @@ def hello_world():  # put application's code here
     return 'Hello World!'
 
 
-@app.route('/tasks')
+@app.route('/tasks', methods=["GET", "POST"])
 def tasks():
     form = TaskForm()
+    if form.validate_on_submit():
+        print(form)
+        return redirect(url_for('tasks'))
+
     starting_tasks = task.task_list_pending(None)
     return render_template('tasks.html', tasks=starting_tasks, form=form)
 
