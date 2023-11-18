@@ -1,0 +1,19 @@
+<table class="table is-striped sortable" id="task_table">
+    <thead>
+    <th> Task</th>
+    <th> Project</th>
+    <th> Tags</th>
+    <th> Due Date</th>
+    </thead>
+    <tbody>
+    {% for task in tasks %}
+        <tr>
+            <td>{{ task.description }}</td>
+            <td>{{ task.project }}</td>
+            <td>{{ task.tags }}</td>
+            <td>{{ task.due }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+

@@ -39,16 +39,16 @@
     </section>
     <section class="section">
         <div class="container">
-            <div class="tabs is-boxed">
+            <div class="tabs is-toggle is-toggle-rounded">
                 <ul>
-                    <li><a>Overdue</a></li>
-                    <li><a>Due Today</a></li>
+                    <li><a hx-trigger="click" hx-target="#task_table" hx-get="/overdue">Overdue</a></li>
+                    <li><a hx-trigger="click" hx-target="#task_table" hx-get="/due-today">Due Today</a></li>
                     <li><a>Due This Month</a></li>
-                    <li><a>All Incomplete Tasks</a></li>
-                    <li><a>Completed Tasks</a></li>
+                    <li><a hx-trigger="click" hx-target="#task_table" hx-get="/all-incomplete">All Incomplete Tasks</a></li>
+                    <li><a >Completed Tasks</a></li>
                 </ul>
             </div>
-            {{ render_partial('due_today.html', tasks=tasks) }}
+            {{ render_partial('partials/task_table.html', tasks=tasks) }}
         </div>
     </section>
 {% endblock %}
