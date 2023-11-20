@@ -22,7 +22,7 @@ class TaskForm(FlaskForm):
 
 
 app = Flask(__name__)
-app.config.from_file("config", load=json.load)
+app.config.from_file("secrets_config", load=json.load)
 jinja_partials.register_extensions(app)
 
 
