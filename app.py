@@ -46,7 +46,10 @@ def hello_world():  # put application's code here
 def tasks():
     form = TaskForm()
     if form.validate_on_submit():
-        print(form)
+        print(form.due_date.data)
+        print(type(form.due_date.data))
+        task.add_task(task_description=form.task.data, task_project=form.project.data,
+                      tags=form.tags.data, due_date=form.due_date.data)
         return redirect(url_for('tasks'))
 
     starting_tasks = task.task_list_pending(None)
