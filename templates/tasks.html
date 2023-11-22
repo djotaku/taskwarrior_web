@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <section class="section">
+    <section class="section" id="add_task">
         {{ render_partial('partials/add_task.html', form=form ) }}
     </section>
     <section class="section">
@@ -16,7 +16,7 @@
                     <li><a hx-trigger="click" hx-target="#task_table" hx-get="/completed">Completed Tasks</a></li>
                 </ul>
             </div>
-            {{ render_partial('partials/task_table.html', tasks=tasks) }}
+            {{ render_partial('partials/task_table.html', tasks=tasks, tab=tab) }}
         </div>
     </section>
 {% endblock %}

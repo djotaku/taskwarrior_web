@@ -19,7 +19,7 @@
                 </td>
                 <td>{{ task.due }}</td>
                 <td>
-                    <button class="button is-green">Modify</button>
+                    <button class="button is-green" hx-trigger="click" hx-target="#add_task" hx-post="/modify_task?task_id={{ task.uuid }}">Modify</button>
                 </td>
                 <td>
                     {% if tab == "completed" %}

@@ -26,6 +26,5 @@ For now I'm using the taskwarrior library developed by CoddingtonBear - the dev 
 - figure out how to run taskserver and document (since their documentation is - ugh - a slideshow)
 - create a docker/podman container to run the server and this flask app
 - create sign-in page. Don't need a crazy login solution with a database or Oauth since it's meant to be single-user.
-- use control flow to have the table changed from "Completed" to "Incomplete" on the Completed Tasks tab
 - in parallel with various steps above, beautify with HTMX (so use fragments) and CSS framework - most likely bulma.io.
   - If I want to edit a task - send it up to the "Add Task" and change the button label to "modify task"

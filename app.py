@@ -19,6 +19,7 @@ class TaskForm(FlaskForm):
     tags = StringField('Tags', validators=[DataRequired()])
     due_date = DateTimeLocalField('Due Date', validators=[DataRequired()])
     submit = SubmitField('Add Task')
+    modify = SubmitField("Modify Task")
 
 
 app = Flask(__name__)
@@ -42,17 +43,31 @@ def hello_world():  # put application's code here
     return 'Hello World!'
 
 
+@app.route('/modify_task', methods=["POST"])
+def modify_task():
+    if request.args:
+        this_task = task.get_task(request.args['task_id'])
+        tags = " ".join(this_task.tags)
+        filled_out_form = TaskForm(task=this_task.description, project=this_task.project, tags=tags,
+                                   due_date=this_task.due)
+        if filled_out_form.validate_on_submit():
+            task.modify_task(task_description=filled_out_form.task.data, task_project=filled_out_form.project.data,
+                             tags=filled_out_form.tags.data, due_date=filled_out_form.due_date.data,
+                             task_uuid=request.args['task_id'])
+            return redirect(url_for('tasks'))
+        return render_template('partials/add_task.html', form=filled_out_form, modify=True)
+
+
 @app.route('/tasks', methods=["GET", "POST"])
 def tasks():
     form = TaskForm()
     if form.validate_on_submit():
-        print(type(form.due_date.data))
         task.add_task(task_description=form.task.data, task_project=form.project.data,
                       tags=form.tags.data, due_date=form.due_date.data)
         return redirect(url_for('tasks'))
 
     starting_tasks = task.task_list_pending(None)
-    return render_template('tasks.html', tasks=starting_tasks, form=form)
+    return render_template('tasks.html', tasks=starting_tasks, form=form, tab='all-incomplete')
 
 
 @app.route('/overdue', methods=["GET", "POST"])

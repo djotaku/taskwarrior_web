@@ -27,7 +27,11 @@
         </div>
         <div class="field">
             <div class="control">
-               {{ form.submit(class_="button is-link") }}
+                {% if modify %}
+                    {{ form.modify(class_="button is-link") }}
+               {% else %}
+                {{ form.submit(class_="button is-link") }}
+                {% endif %}
             </div>
         </div>
     </form>

@@ -39,10 +39,8 @@ def mark_task_completed(task_uuid: str):
 
 
 def add_task(task_description: str, task_project: str, tags: str, due_date: datetime):
-    print(type(due_date))
     tag_list = tags.split()
     string_due_date = due_date.strftime("%Y%m%dT%H%M%S-0500")
-    print(string_due_date)
     new_task = Task(description=task_description, project=task_project, tags=tag_list, due=string_due_date)
     client.add(new_task)
 
@@ -51,3 +49,19 @@ def mark_task_incomplete(task_uuid: str):
     our_task = client.get(uuid=task_uuid)
     our_task.status = "pending"
     client.modify(our_task)
+
+
+def get_task(task_uuid: str):
+    the_task = client.get(uuid=task_uuid)
+    return the_task
+
+
+def modify_task(task_description: str, task_project: str, tags: str, due_date: datetime, task_uuid: str):
+    tag_list = tags.split()
+    task_to_modify = client.get(task_uuid)
+    string_due_date = due_date.strftime("%Y%m%dT%H%M%S-0500")
+    task_to_modify.description = task_description
+    task_to_modify.project = task_project
+    task_to_modify.tags = tag_list
+    task_to_modify.due = string_due_date
+    client.modify(task_to_modify)
