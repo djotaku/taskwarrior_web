@@ -9,7 +9,7 @@ import jinja_partials
 import task
 import json
 from flask_wtf import FlaskForm
-from wtforms import DateTimeLocalField, StringField, SubmitField
+from wtforms import DateTimeLocalField, StringField, SubmitField, HiddenField
 from wtforms.validators import DataRequired
 
 
@@ -18,6 +18,7 @@ class TaskForm(FlaskForm):
     project = StringField('Project', validators=[DataRequired()])
     tags = StringField('Tags', validators=[DataRequired()])
     due_date = DateTimeLocalField('Due Date', validators=[DataRequired()])
+    uuid = HiddenField()
     submit = SubmitField('Add Task')
     modify = SubmitField("Modify Task")
 
@@ -45,16 +46,12 @@ def hello_world():  # put application's code here
 
 @app.route('/modify_task', methods=["POST"])
 def modify_task():
+    filled_out_form = TaskForm()
     if request.args:
         this_task = task.get_task(request.args['task_id'])
         tags = " ".join(this_task.tags)
         filled_out_form = TaskForm(task=this_task.description, project=this_task.project, tags=tags,
-                                   due_date=this_task.due)
-        if filled_out_form.validate_on_submit():
-            task.modify_task(task_description=filled_out_form.task.data, task_project=filled_out_form.project.data,
-                             tags=filled_out_form.tags.data, due_date=filled_out_form.due_date.data,
-                             task_uuid=request.args['task_id'])
-            return redirect(url_for('tasks'))
+                                   due_date=this_task.due, uuid=request.args['task_id'])
         return render_template('partials/add_task.html', form=filled_out_form, modify=True)
 
 
@@ -62,8 +59,13 @@ def modify_task():
 def tasks():
     form = TaskForm()
     if form.validate_on_submit():
-        task.add_task(task_description=form.task.data, task_project=form.project.data,
-                      tags=form.tags.data, due_date=form.due_date.data)
+        if form.submit.data:
+            task.add_task(task_description=form.task.data, task_project=form.project.data,
+                          tags=form.tags.data, due_date=form.due_date.data)
+        else:
+            task.modify_task(task_description=form.task.data, task_project=form.project.data,
+                             tags=form.tags.data, due_date=form.due_date.data,
+                             task_uuid=form.uuid.data)
         return redirect(url_for('tasks'))
 
     starting_tasks = task.task_list_pending(None)
