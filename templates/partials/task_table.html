@@ -22,9 +22,15 @@
                     <button class="button is-green">Modify</button>
                 </td>
                 <td>
+                    {% if tab == "completed" %}
                     <button class="button is-blue" hx-trigger="click" hx-target="#task_table"
-                            hx-post="/{{ tab }}?task_id={{ task.uuid }}">Completed
+                            hx-post="/{{ tab }}?task_id={{ task.uuid }}"> Change Status to Incomplete
                     </button>
+                    {% else %}
+                    <button class="button is-blue" hx-trigger="click" hx-target="#task_table"
+                            hx-post="/{{ tab }}?task_id={{ task.uuid }}"> Mark Completed
+                    </button>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}

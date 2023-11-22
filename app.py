@@ -90,10 +90,12 @@ def all_incomplete():
     return render_template('partials/task_table.html', tasks=all_incomplete_tasks, tab='all-incomplete')
 
 
-@app.route('/completed')
+@app.route('/completed', methods=["GET", "POST"])
 def completed():
+    if request.args:
+        task.mark_task_incomplete(request.args['task_id'])
     completed_tasks = task.task_list_completed()
-    return render_template('partials/task_table.html', tasks=completed_tasks)
+    return render_template('partials/task_table.html', tasks=completed_tasks, tab='completed')
 
 
 if __name__ == '__main__':

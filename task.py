@@ -45,3 +45,9 @@ def add_task(task_description: str, task_project: str, tags: str, due_date: date
     print(string_due_date)
     new_task = Task(description=task_description, project=task_project, tags=tag_list, due=string_due_date)
     client.add(new_task)
+
+
+def mark_task_incomplete(task_uuid: str):
+    our_task = client.get(uuid=task_uuid)
+    our_task.status = "pending"
+    client.modify(our_task)
