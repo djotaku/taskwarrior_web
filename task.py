@@ -39,8 +39,9 @@ def mark_task_completed(task_uuid: str):
 
 
 def add_task(task_description: str, task_project: str, tags: str, due_date: datetime):
-    print("Now I'm in the function")
     print(type(due_date))
     tag_list = tags.split()
-    new_task = Task(description=task_description, project=task_project, tags=tag_list, due=due_date)
+    string_due_date = due_date.strftime("%Y%m%dT%H%M%S-0500")
+    print(string_due_date)
+    new_task = Task(description=task_description, project=task_project, tags=tag_list, due=string_due_date)
     client.add(new_task)
