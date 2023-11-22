@@ -1,22 +1,33 @@
 <div class="table-container">
-<table class="table is-striped sortable" id="task_table">
-    <thead>
-    <th> Task</th>
-    <th> Project</th>
-    <th> Tags</th>
-    <th> Due Date</th>
-    </thead>
-    <tbody>
-    {% for task in tasks %}
-        <tr>
-            <td>{{ task.description }}</td>
-            <td>{{ task.project }}</td>
-            <td>{{ task.tags }}</td>
-            <td>{{ task.due }}</td>
-        <td><button class="button is-green" >Modify</button></td>
-        <td><button class="button is-blue" hx-trigger="click" hx-target="#task_table" hx-post="/{{ tab }}?task_id={{ task.uuid }}">Completed</button></td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
+    <table class="table is-striped sortable" id="task_table">
+        <thead>
+        <th> Task</th>
+        <th> Project</th>
+        <th> Tags</th>
+        <th> Due Date</th>
+        </thead>
+        <tbody>
+        {% for task in tasks %}
+            <tr>
+                <td>{{ task.description }}</td>
+                <td>{{ task.project }}</td>
+                <td>{% if task.tags %}
+                    {% for tag in task.tags %}
+                        {{ tag }},
+                    {% endfor %}
+                {% endif %}
+                </td>
+                <td>{{ task.due }}</td>
+                <td>
+                    <button class="button is-green">Modify</button>
+                </td>
+                <td>
+                    <button class="button is-blue" hx-trigger="click" hx-target="#task_table"
+                            hx-post="/{{ tab }}?task_id={{ task.uuid }}">Completed
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 </div>
