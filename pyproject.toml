@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name="taskwarrior_web"
+version="0.1"
+dependencies=[
+"flask", "jinja-partials", "flask_wtf", "wtforms", "taskwarrior"
+]
+authors=[{name="Eric Mesa", email="ericsbinaryworld@gmail.com"}]
+description="A web interface for taskwarrior"
+readme="README.md"
+keywords=["taskwarrior", "flask"]
+[project.urls]
+Repository="https://github.com/djotaku/taskwarrior_web"
