@@ -1,5 +1,7 @@
 # taskwarrior_web
 
+![screenshot](https://github.com/djotaku/taskwarrior_web/blob/main/screenshots/Taskwarrior_web.png)
+
 ## Why this repo?
 
 With the demise of Inthe.am later this year and FreeCinc last year, there aren't any web interfaces for taskwarrior left. It turns out that taskserver, as written, doesn't really scale well for multiple users. So I'm going to write this UI for my needs. Feel free to use it if it works for you.
