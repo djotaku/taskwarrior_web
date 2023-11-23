@@ -5,12 +5,14 @@ from flask import render_template
 from flask import request
 from flask import url_for
 from flask import redirect
+from flask_login import LoginManager, login_required, login_user, UserMixin
 import jinja_partials
 import task
 import json
 from flask_wtf import FlaskForm
-from wtforms import DateTimeLocalField, StringField, SubmitField, HiddenField
+from wtforms import DateTimeLocalField, StringField, SubmitField, HiddenField, PasswordField, BooleanField
 from wtforms.validators import DataRequired
+from werkzeug.security import check_password_hash
 
 
 class TaskForm(FlaskForm):
@@ -23,9 +25,22 @@ class TaskForm(FlaskForm):
     modify = SubmitField("Modify Task")
 
 
+class LoginForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    remember_me = BooleanField('Keep Me Logged In')
+    submit = SubmitField('Login')
+
+
+class User(UserMixin):
+    pass
+
 app = Flask(__name__)
 app.config.from_file("secrets_config", load=json.load)
 jinja_partials.register_extensions(app)
+login_manager = LoginManager()
+login_manager.login_view = "login"
+login_manager.init_app(app)
 
 
 def find_end(date: datetime, date_range: str) -> int:
@@ -39,9 +54,40 @@ def find_end(date: datetime, date_range: str) -> int:
             return 30 - date.day
 
 
+@login_manager.user_loader
+def load_user(user_id):
+    with open("secrets_config", "r") as file:
+        secrets = json.load(file)
+    if user_id not in secrets["user"]:
+        print("Username not found!")
+    user = User()
+    user.id = user_id
+    return user
+
+
+def verify_password(user: str, password: str):
+    with open("secrets_config", "r") as file:
+        secrets = json.load(file)
+        return check_password_hash(secrets["user"][user]["password"], password)
+
+
 @app.route('/')
 def hello_world():  # put application's code here
     return 'Hello World!'
+
+
+@app.route('/login', methods=["GET", "POST"])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = load_user(form.username.data)
+        if verify_password(user.get_id(), form.password.data):
+            login_user(user, form.remember_me.data)
+            next = request.args.get('next')
+            if next is None or not next.startswith('/'):
+                next = url_for('index')
+            return redirect(next)
+    return render_template('login.html', form=form)
 
 
 @app.route('/modify_task', methods=["POST"])
@@ -56,6 +102,7 @@ def modify_task():
 
 
 @app.route('/tasks', methods=["GET", "POST"])
+@login_required
 def tasks():
     form = TaskForm()
     if form.validate_on_submit():
