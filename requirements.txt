@@ -10,8 +10,11 @@ click==8.1.7
     # via flask
 flask==3.0.0
     # via
+    #   flask-login
     #   flask-wtf
     #   taskwarrior-web (pyproject.toml)
+flask-login==0.6.3
+    # via taskwarrior-web (pyproject.toml)
 flask-wtf==1.2.1
     # via taskwarrior-web (pyproject.toml)
 itsdangerous==2.1.2
@@ -44,7 +47,9 @@ typing-extensions==4.8.0
     #   pydantic
     #   taskwarrior
 werkzeug==3.0.1
-    # via flask
+    # via
+    #   flask
+    #   flask-login
 wtforms==3.1.1
     # via
     #   flask-wtf

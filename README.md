@@ -15,6 +15,7 @@ Usage
   "SECRET_KEY":"some random letters"
 }
 ```
+- use create_new_password_hash() function in utility_functions.py
 
 ## About the dependency I'm using
 
@@ -25,6 +26,3 @@ For now I'm using the taskwarrior library developed by CoddingtonBear - the dev 
 - create the flask app running on my local machine (or a test VM for safety purposes) and make sure it can interact correctly with a taskwarrior list
 - figure out how to run taskserver and document (since their documentation is - ugh - a slideshow)
 - create a docker/podman container to run the server and this flask app
-- create sign-in page. Don't need a crazy login solution with a database or Oauth since it's meant to be single-user.
-- in parallel with various steps above, beautify with HTMX (so use fragments) and CSS framework - most likely bulma.io.
-  - If I want to edit a task - send it up to the "Add Task" and change the button label to "modify task"
