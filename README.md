@@ -15,7 +15,7 @@ Usage
   "SECRET_KEY":"some random letters"
 }
 ```
-- use create_new_password_has() function in utility_functions.py
+- use create_new_password_hash() function in utility_functions.py
 
 ## About the dependency I'm using
 

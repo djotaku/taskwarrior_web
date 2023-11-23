@@ -35,6 +35,7 @@ class LoginForm(FlaskForm):
 class User(UserMixin):
     pass
 
+
 app = Flask(__name__)
 app.config.from_file("secrets_config", load=json.load)
 jinja_partials.register_extensions(app)
@@ -72,8 +73,8 @@ def verify_password(user: str, password: str):
 
 
 @app.route('/')
-def hello_world():  # put application's code here
-    return 'Hello World!'
+def index():
+    return render_template('index.html')
 
 
 @app.route('/login', methods=["GET", "POST"])
@@ -93,7 +94,6 @@ def login():
 @app.route('/modify_task', methods=["POST"])
 @login_required
 def modify_task():
-    filled_out_form = TaskForm()
     if request.args:
         this_task = task.get_task(request.args['task_id'])
         tags = " ".join(this_task.tags)
