@@ -91,6 +91,7 @@ def login():
 
 
 @app.route('/modify_task', methods=["POST"])
+@login_required
 def modify_task():
     filled_out_form = TaskForm()
     if request.args:
@@ -120,6 +121,7 @@ def tasks():
 
 
 @app.route('/overdue', methods=["GET", "POST"])
+@login_required
 def overdue():
     if request.args:
         task.mark_task_completed(request.args['task_id'])
@@ -128,6 +130,7 @@ def overdue():
 
 
 @app.route('/due-today', methods=["GET", "POST"])
+@login_required
 def due_today():
     """The tasks that have a due date of today."""
     if request.args:
@@ -138,6 +141,7 @@ def due_today():
 
 
 @app.route('/due-this-month', methods=["GET", "POST"])
+@login_required
 def due_this_month():
     if request.args:
         task.mark_task_completed(request.args['task_id'])
@@ -147,6 +151,7 @@ def due_this_month():
 
 
 @app.route('/all-incomplete', methods=["GET", "POST"])
+@login_required
 def all_incomplete():
     if request.args:
         task.mark_task_completed(request.args['task_id'])
@@ -155,6 +160,7 @@ def all_incomplete():
 
 
 @app.route('/completed', methods=["GET", "POST"])
+@login_required
 def completed():
     if request.args:
         task.mark_task_incomplete(request.args['task_id'])
