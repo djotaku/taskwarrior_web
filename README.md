@@ -1,6 +1,6 @@
 # taskwarrior_web
 
-![screenshot](https://github.com/djotaku/taskwarrior_web/blob/main/screenshots/Taskwarrior_web.png)
+![screenshot](https://github.com/djotaku/taskwarrior_web/blob/main/taskwarrior_web/screenshots/Taskwarrior_web.png)
 
 ## Why this repo?
 
