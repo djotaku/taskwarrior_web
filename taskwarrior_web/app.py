@@ -7,13 +7,12 @@ from flask import url_for
 from flask import redirect
 from flask_login import LoginManager, login_required, login_user, UserMixin
 import jinja_partials
-import task
+from . import task
 import json
 from flask_wtf import FlaskForm
 from wtforms import DateTimeLocalField, StringField, SubmitField, HiddenField, PasswordField, BooleanField
 from wtforms.validators import DataRequired
 from werkzeug.security import check_password_hash
-
 
 class TaskForm(FlaskForm):
     task = StringField('Task', validators=[DataRequired()])
