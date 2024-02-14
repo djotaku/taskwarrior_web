@@ -13,6 +13,7 @@ from flask_wtf import FlaskForm
 from wtforms import DateTimeLocalField, StringField, SubmitField, HiddenField, PasswordField, BooleanField
 from wtforms.validators import DataRequired
 from werkzeug.security import check_password_hash
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 class TaskForm(FlaskForm):
     task = StringField('Task', validators=[DataRequired()])
@@ -37,6 +38,7 @@ class User(UserMixin):
 
 app = Flask(__name__)
 app.config.from_file("secrets_config", load=json.load)
+app = ProxyFix(app)
 jinja_partials.register_extensions(app)
 login_manager = LoginManager()
 login_manager.login_view = "login"
