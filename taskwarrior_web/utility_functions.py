@@ -12,3 +12,7 @@ def create_new_password_hash():
         secrets["user"] = user
     with open("secrets_config", "w") as secrets_file:
         json.dump(secrets, secrets_file)
+
+
+if __name__ == "__main__":
+    create_new_password_hash()
