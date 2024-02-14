@@ -7,7 +7,7 @@ from flask import url_for
 from flask import redirect
 from flask_login import LoginManager, login_required, login_user, UserMixin
 import jinja_partials
-from . import task
+import task
 import json
 from flask_wtf import FlaskForm
 from wtforms import DateTimeLocalField, StringField, SubmitField, HiddenField, PasswordField, BooleanField
