@@ -21,6 +21,12 @@ Usage
 
 I used the taskd container at https://github.com/ogarcia/docker-taskd which I have forked just in case. After that, just use the instructions at https://gothenburgbitfactory.github.io/taskserver-setup/ to get your user created, etc. I ran into an error at first where I had to go into the config file and change the server it was binding to, but then had to change it back to 0.0.0.0 after the certs were correctly created. I also had to change the request.limit to 0 to get my initial sync to work.
 
+Go into your taskwarrior_web container (eg podman exec -ti taskwarrior_web /bin/sh) and run task to generate your .taskrc.
+
+You should now be able to log in.
+
+Copy your .pem files from the sync step over to the volume you mounted to /root/.task and run the same steps to setup the taskd. server as before. Run task sync.
+
 
 
 ## About the dependency I'm using
@@ -29,4 +35,4 @@ For now I'm using the taskwarrior library developed by CoddingtonBear - the dev 
 
 ## ToDO
 
-- create a docker/podman container to run the server and this flask app
+- add button to sync tasks
