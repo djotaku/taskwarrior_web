@@ -71,3 +71,4 @@ That will run sync every minute.
 For now I'm using the taskwarrior library developed by CoddingtonBear - the dev of Inthe.am. It can be found at https://github.com/coddingtonbear/python-taskwarrior - the link on pypi is broken. It looks like the pypi.org page points to the wrong repo. CoddingtonBear hasn't worked on it in a year, so it may break with newer versions of taskwarrior. For now I'm just going to go along with it. It looks like it (and also [taskw's](https://github.com/ralphbean/taskw) safe interface) just runs taskwarrior on the commandline and then grabs the output. I do something similar for [Snap-in-Time](https://github.com/djotaku/Snap-in-Time), so if I had to re-implement this in the future, I think I could do it, even if I had to write the library myself.
 
 ## ToDo
+- Figure out how to get the web app to do local time instead of UTC and do it in a way that won't muck about with the local sync.
