@@ -27,8 +27,7 @@ def task_list_overdue():
 
 def task_list_completed():
     """Return all completed tasks"""
-    tasks = client.filter(status="completed")
-    return tasks
+    return client.filter(status="completed")
 
 
 def mark_task_completed(task_uuid: str):
@@ -52,8 +51,7 @@ def mark_task_incomplete(task_uuid: str):
 
 
 def get_task(task_uuid: str):
-    the_task = client.get(uuid=task_uuid)
-    return the_task
+    return client.get(uuid=task_uuid)
 
 
 def modify_task(task_description: str, task_project: str, tags: str, due_date: datetime, task_uuid: str):
