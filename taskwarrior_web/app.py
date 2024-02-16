@@ -40,7 +40,7 @@ class User(UserMixin):
 
 app = Flask(__name__)
 app.config.from_file("secrets_config", load=json.load)
-app = ProxyFix(app)
+#app = ProxyFix(app)
 moment = Moment(app)
 jinja_partials.register_extensions(app)
 login_manager = LoginManager()
