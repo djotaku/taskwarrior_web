@@ -30,11 +30,11 @@ podman run -d \
           --name=taskd \
             -e CERT_BITS=4096 \
               -e CERT_EXPIRATION_DAYS=365 \
-                -e CERT_ORGANIZATION="Eric Mesa" \
-                  -e CERT_CN=tasks.ericmesa.com \
+                -e CERT_ORGANIZATION="Your Name" \
+                  -e CERT_CN=yoururl.com \
                     -e CERT_COUNTRY=US \
-                      -e CERT_STATE="Maryland" \
-                        -e CERT_LOCALITY="Elkridge" \
+                      -e CERT_STATE="YourState" \
+                        -e CERT_LOCALITY="YourCity" \
                           -p 53589:53589 \
                             -v taskd:/var/taskd \
                               ghcr.io/connectical/taskd
@@ -69,6 +69,3 @@ That will run sync every minute.
 ## About the dependency I'm using
 
 For now I'm using the taskwarrior library developed by CoddingtonBear - the dev of Inthe.am. It can be found at https://github.com/coddingtonbear/python-taskwarrior - the link on pypi is broken. It looks like the pypi.org page points to the wrong repo. CoddingtonBear hasn't worked on it in a year, so it may break with newer versions of taskwarrior. For now I'm just going to go along with it. It looks like it (and also [taskw's](https://github.com/ralphbean/taskw) safe interface) just runs taskwarrior on the commandline and then grabs the output. I do something similar for [Snap-in-Time](https://github.com/djotaku/Snap-in-Time), so if I had to re-implement this in the future, I think I could do it, even if I had to write the library myself.
-
-## ToDo
-- Figure out how to get the web app to do local time instead of UTC and do it in a way that won't muck about with the local sync.
