@@ -17,7 +17,7 @@
                     {% endfor %}
                 {% endif %}
                 </td>
-                <td>{{ moment(task.due).format('LLL') }}</td>
+                <td>{{ task.due }} or in moment format: {{ moment(task.due).format('LLL', refresh=True) }}</td>
                 <td>
                     <button class="button is-green" hx-trigger="click" hx-target="#add_task" hx-post="/modify_task?task_id={{ task.uuid }}">Modify</button>
                 </td>
