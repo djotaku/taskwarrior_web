@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name="taskwarrior_web"
 version="0.9"
 dependencies=[
-"flask", "jinja-partials", "flask_wtf", "wtforms", "taskwarrior","flask-login"
+"flask", "jinja-partials", "flask_wtf", "wtforms", "taskwarrior","flask-login", "flask-moment"
 ]
 authors=[{name="Eric Mesa", email="ericsbinaryworld@gmail.com"}]
 description="A web interface for taskwarrior"
