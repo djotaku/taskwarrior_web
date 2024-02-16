@@ -10,28 +10,34 @@ import jinja_partials
 import task
 import json
 from flask_wtf import FlaskForm
-from wtforms import DateTimeLocalField, StringField, SubmitField, HiddenField, PasswordField, BooleanField
+from wtforms import (
+    DateTimeLocalField,
+    StringField,
+    SubmitField,
+    HiddenField,
+    PasswordField,
+    BooleanField,
+)
 from wtforms.validators import DataRequired
 from werkzeug.security import check_password_hash
-from werkzeug.middleware.proxy_fix import ProxyFix
 from flask_moment import Moment
 
 
 class TaskForm(FlaskForm):
-    task = StringField('Task', validators=[DataRequired()])
-    project = StringField('Project', validators=[DataRequired()])
-    tags = StringField('Tags', validators=[DataRequired()])
-    due_date = DateTimeLocalField('Due Date', validators=[DataRequired()])
+    task = StringField("Task", validators=[DataRequired()])
+    project = StringField("Project", validators=[DataRequired()])
+    tags = StringField("Tags", validators=[DataRequired()])
+    due_date = DateTimeLocalField("Due Date", validators=[DataRequired()])
     uuid = HiddenField()
-    submit = SubmitField('Add Task')
+    submit = SubmitField("Add Task")
     modify = SubmitField("Modify Task")
 
 
 class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    remember_me = BooleanField('Keep Me Logged In')
-    submit = SubmitField('Login')
+    username = StringField("Username", validators=[DataRequired()])
+    password = PasswordField("Password", validators=[DataRequired()])
+    remember_me = BooleanField("Keep Me Logged In")
+    submit = SubmitField("Login")
 
 
 class User(UserMixin):
@@ -40,7 +46,6 @@ class User(UserMixin):
 
 app = Flask(__name__)
 app.config.from_file("secrets_config", load=json.load)
-#app = ProxyFix(app)
 moment = Moment(app)
 jinja_partials.register_extensions(app)
 login_manager = LoginManager()
@@ -76,101 +81,130 @@ def verify_password(user: str, password: str):
         return check_password_hash(secrets["user"][user]["password"], password)
 
 
-@app.route('/')
+@app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template("index.html")
 
 
-@app.route('/login', methods=["GET", "POST"])
+@app.route("/login", methods=["GET", "POST"])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = load_user(form.username.data)
         if verify_password(user.get_id(), form.password.data):
             login_user(user, form.remember_me.data)
-            next = request.args.get('next')
-            if next is None or not next.startswith('/'):
-                next = url_for('index')
+            next = request.args.get("next")
+            if next is None or not next.startswith("/"):
+                next = url_for("index")
             return redirect(next)
-    return render_template('login.html', form=form)
+    return render_template("login.html", form=form)
 
 
-@app.route('/modify_task', methods=["POST"])
+@app.route("/modify_task", methods=["POST"])
 @login_required
 def modify_task():
     if request.args:
-        this_task = task.get_task(request.args['task_id'])
+        this_task = task.get_task(request.args["task_id"])
         tags = " ".join(this_task.tags)
-        filled_out_form = TaskForm(task=this_task.description, project=this_task.project, tags=tags,
-                                   due_date=this_task.due, uuid=request.args['task_id'])
-        return render_template('partials/add_task.html', form=filled_out_form, modify=True)
+        filled_out_form = TaskForm(
+            task=this_task.description,
+            project=this_task.project,
+            tags=tags,
+            due_date=this_task.due,
+            uuid=request.args["task_id"],
+        )
+        return render_template(
+            "partials/add_task.html", form=filled_out_form, modify=True
+        )
 
 
-@app.route('/tasks', methods=["GET", "POST"])
+@app.route("/tasks", methods=["GET", "POST"])
 @login_required
 def tasks():
     form = TaskForm()
     if form.validate_on_submit():
         if form.submit.data:
-            task.add_task(task_description=form.task.data, task_project=form.project.data,
-                          tags=form.tags.data, due_date=form.due_date.data)
+            task.add_task(
+                task_description=form.task.data,
+                task_project=form.project.data,
+                tags=form.tags.data,
+                due_date=form.due_date.data,
+            )
         else:
-            task.modify_task(task_description=form.task.data, task_project=form.project.data,
-                             tags=form.tags.data, due_date=form.due_date.data,
-                             task_uuid=form.uuid.data)
-        return redirect(url_for('tasks'))
+            task.modify_task(
+                task_description=form.task.data,
+                task_project=form.project.data,
+                tags=form.tags.data,
+                due_date=form.due_date.data,
+                task_uuid=form.uuid.data,
+            )
+        return redirect(url_for("tasks"))
 
     starting_tasks = task.task_list_pending(None)
-    return render_template('tasks.html', tasks=starting_tasks, form=form, tab='all-incomplete')
+    return render_template(
+        "tasks.html", tasks=starting_tasks, form=form, tab="all-incomplete"
+    )
 
 
-@app.route('/overdue', methods=["GET", "POST"])
+@app.route("/overdue", methods=["GET", "POST"])
 @login_required
 def overdue():
     if request.args:
-        task.mark_task_completed(request.args['task_id'])
+        task.mark_task_completed(request.args["task_id"])
     overdue_tasks = task.task_list_overdue()
-    return render_template('partials/task_table.html', tasks=overdue_tasks, tab="overdue")
+    return render_template(
+        "partials/task_table.html", tasks=overdue_tasks, tab="overdue"
+    )
 
 
-@app.route('/due-today', methods=["GET", "POST"])
+@app.route("/due-today", methods=["GET", "POST"])
 @login_required
 def due_today():
     """The tasks that have a due date of today."""
     if request.args:
-        task.mark_task_completed(request.args['task_id'])
+        task.mark_task_completed(request.args["task_id"])
     today = datetime.today()
     today_tasks = task.task_list_pending(today)
-    return render_template('partials/task_table.html', tasks=today_tasks, tab="due-today")
+    return render_template(
+        "partials/task_table.html", tasks=today_tasks, tab="due-today"
+    )
 
 
-@app.route('/due-this-month', methods=["GET", "POST"])
+@app.route("/due-this-month", methods=["GET", "POST"])
 @login_required
 def due_this_month():
     if request.args:
-        task.mark_task_completed(request.args['task_id'])
+        task.mark_task_completed(request.args["task_id"])
     today = datetime.today().astimezone()
-    month_tasks = task.task_list_pending(today - timedelta(today.day), today + timedelta(find_end(today, "month")))
-    return render_template('partials/task_table.html', tasks=month_tasks, tab='due-this-month')
+    month_tasks = task.task_list_pending(
+        today - timedelta(today.day), today + timedelta(find_end(today, "month"))
+    )
+    return render_template(
+        "partials/task_table.html", tasks=month_tasks, tab="due-this-month"
+    )
 
 
-@app.route('/all-incomplete', methods=["GET", "POST"])
+@app.route("/all-incomplete", methods=["GET", "POST"])
 @login_required
 def all_incomplete():
     if request.args:
-        task.mark_task_completed(request.args['task_id'])
+        task.mark_task_completed(request.args["task_id"])
     all_incomplete_tasks = task.task_list_pending(None)
-    return render_template('partials/task_table.html', tasks=all_incomplete_tasks, tab='all-incomplete')
+    return render_template(
+        "partials/task_table.html", tasks=all_incomplete_tasks, tab="all-incomplete"
+    )
 
 
-@app.route('/completed', methods=["GET", "POST"])
+@app.route("/completed", methods=["GET", "POST"])
 @login_required
 def completed():
     if request.args:
-        task.mark_task_incomplete(request.args['task_id'])
+        task.mark_task_incomplete(request.args["task_id"])
     completed_tasks = task.task_list_completed()
-    return render_template('partials/task_table.html', tasks=completed_tasks, tab='completed')
+    return render_template(
+        "partials/task_table.html", tasks=completed_tasks, tab="completed"
+    )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run()
