@@ -105,10 +105,7 @@ def login():
 def modify_task():
     if request.args:
         this_task = task.get_task(request.args["task_id"])
-        if this_task.tags:
-            tags = " ".join(this_task.tags)
-        else:
-            tags = ""
+        tags = " ".join(this_task.tags) if this_task.tags else ""
         filled_out_form = TaskForm(
             task=this_task.description,
             project=this_task.project,
