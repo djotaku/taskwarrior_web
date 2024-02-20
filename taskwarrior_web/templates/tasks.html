@@ -5,13 +5,13 @@
         {{ render_partial('partials/add_task.html', form=form ) }}
     </section>
     <section class="section">
-        <div class="container">
+        <div class="container" >
             <div class="tabs is-toggle is-toggle-rounded">
                 <ul>
-                    <li><a hx-trigger="click" hx-target="#task_table" hx-get="/overdue">Overdue</a></li>
-                    <li><a hx-trigger="click" hx-target="#task_table" hx-get="/due-today">Due Today</a></li>
-                    <li><a hx-trigger="click" hx-target="#task_table" hx-get="/due-this-month">Due This Month</a></li>
-                    <li><a hx-trigger="click" hx-target="#task_table" hx-get="/all-incomplete">All Incomplete Tasks</a>
+                    <li><a hx-trigger="click" hx-target="#task_table" hx-get="/overdue" hx-on::after-request="flask_moment_render_all()">Overdue</a></li>
+                    <li><a hx-trigger="click" hx-target="#task_table" hx-get="/due-today" hx-on::after-request="flask_moment_render_all()">Due Today</a></li>
+                    <li><a hx-trigger="click" hx-target="#task_table" hx-get="/due-this-month" hx-on::after-request="flask_moment_render_all()">Due This Month</a></li>
+                    <li><a hx-trigger="click" hx-target="#task_table" hx-get="/all-incomplete" hx-on::after-request="flask_moment_render_all()">All Incomplete Tasks</a>
                     </li>
                     <li><a hx-trigger="click" hx-target="#task_table" hx-get="/completed">Completed Tasks</a></li>
                 </ul>
