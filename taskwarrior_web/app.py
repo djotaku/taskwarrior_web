@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+import pytz
 
 from flask import Flask
 from flask import render_template
@@ -163,7 +164,9 @@ def due_today():
     """The tasks that have a due date of today."""
     if request.args:
         task.mark_task_completed(request.args["task_id"])
-    today = datetime.today()
+    today = datetime.now()
+    timezone = pytz.timezone("America/New_York")
+    today = timezone.localize(today)
     today_tasks = task.task_list_pending(today)
     return render_template(
         "partials/task_table.html", tasks=today_tasks, tab="due-today"
@@ -175,7 +178,9 @@ def due_today():
 def due_this_month():
     if request.args:
         task.mark_task_completed(request.args["task_id"])
-    today = datetime.today().astimezone()
+    today = datetime.now()
+    timezone = pytz.timezone("America/New_York")
+    today = timezone.localize(today)
     month_tasks = task.task_list_pending(
         today - timedelta(today.day), today + timedelta(find_end(today, "month"))
     )

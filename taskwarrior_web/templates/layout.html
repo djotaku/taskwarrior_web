@@ -21,6 +21,31 @@
 
 {% block content %}
 {% endblock %}
+    <script>
+        // not sure why, but this needs to be at the bottom, not in the head.
+        const tabHandler = (event, button) => {
+            // remove the previously active tab first
+            const activeTabs = document.querySelectorAll('*[class="is-active"]');
+            activeTabs.forEach(removeActive)
+            // make the new tab active
+            button.classList.add('is-active');
+        };
 
+        function removeActive(item){
+            item.classList.remove('is-active');
+        }
+
+        const overdue_btn = document.getElementById('overdueTab');
+        overdue_btn.addEventListener('click', (event) => tabHandler(event, overdue_btn));
+        const today_btn = document.getElementById('todayTab');
+        today_btn.addEventListener('click', (event) => tabHandler(event, today_btn));
+        const month_btn = document.getElementById('monthTab');
+        month_btn.addEventListener('click', (event) => tabHandler(event, month_btn));
+        const incomplete_btn = document.getElementById('incompleteTab');
+        incomplete_btn.addEventListener('click', (event) => tabHandler(event, incomplete_btn));
+        const complete_btn = document.getElementById('completedTab');
+        complete_btn.addEventListener('click', (event) => tabHandler(event, complete_btn));
+
+    </script>
 </body>
 </html>
