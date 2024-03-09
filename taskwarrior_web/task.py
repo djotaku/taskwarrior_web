@@ -78,7 +78,7 @@ def get_task(task_uuid: str):
 
     Currently only used when getting a task for modification.
 
-    Therefore, changing the timezone to UTC so that
+    Therefore, changing the timezone to UTC so that it displays correctly on the webpage.
     """
     shift = timedelta(hours=-5)
     task = client.get(uuid=task_uuid)
