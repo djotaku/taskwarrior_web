@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 import pytz
 from taskwarrior import Client, Task
 
@@ -74,7 +74,16 @@ def mark_task_incomplete(task_uuid: str):
 
 
 def get_task(task_uuid: str):
-    return client.get(uuid=task_uuid)
+    """Gets a task from taskwarrior.
+
+    Currently only used when getting a task for modification.
+
+    Therefore, changing the timezone to UTC so that
+    """
+    shift = timedelta(hours=-5)
+    task = client.get(uuid=task_uuid)
+    task.due = task.due + shift
+    return task
 
 
 def modify_task(
