@@ -24,11 +24,11 @@
                 <td>
                     {% if tab == "completed" %}
                     <button class="button is-blue" hx-trigger="click" hx-target="#task_table"
-                            hx-post="/{{ tab }}?task_id={{ task.uuid }}"> Change Status to Incomplete
+                            hx-post="/{{ tab }}?task_id={{ task.uuid }}" hx-on::after-request="flask_moment_render_all()"> Change Status to Incomplete
                     </button>
                     {% else %}
                     <button class="button is-blue" hx-trigger="click" hx-target="#task_table"
-                            hx-post="/{{ tab }}?task_id={{ task.uuid }}"> Mark Completed
+                            hx-post="/{{ tab }}?task_id={{ task.uuid }}" hx-on::after-request="flask_moment_render_all()"> Mark Completed
                     </button>
                     {% endif %}
                 </td>
