@@ -1,5 +1,7 @@
 # taskwarrior_web
 
+WARNING: THIS CURRENTLY DOES NOT WORK WITH THE RECENTLY RELEASE TASKWARRIOR 3.0! They changed a ton about how syncing works. 
+
 ![screenshot](https://github.com/djotaku/taskwarrior_web/blob/main/taskwarrior_web/screenshots/Taskwarrior_web.png)
 
 ## Why this repo?
