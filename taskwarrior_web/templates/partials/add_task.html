@@ -1,38 +1,38 @@
 <div class="container">
     <form method="POST">
         {{ form.hidden_tag() }}
-        <div class="field">
-            <div class="control">
-                {{ form.task.label(class_="label") }}
-                {{ form.task(class="input", placeholder="Your Task") }}
-            </div>
+        <div class="mb-3">
+
+            {{ form.task.label(class_="form-label") }}
+            {{ form.task(class="form-control", placeholder="Your Task") }}
+
         </div>
-        <div class="field">
-            <div class="control">
-                {{ form.project.label(class_="label") }}
-                {{ form.project(class="input", placeholder="Project Associated with Task") }}
-            </div>
+        <div class="mb-3">
+
+            {{ form.project.label(class_="form-label") }}
+            {{ form.project(class="form-control", placeholder="Project Associated with Task") }}
+
         </div>
-        <div class="field">
-            <div class="control">
-                {{ form.tags.label(class_="label") }}
-                {{ form.tags(class="input", placeholder="Tags Associated with Task (separated by a space)") }}
-            </div>
+        <div class="mb-3">
+
+            {{ form.tags.label(class_="form-label") }}
+            {{ form.tags(class="form-control", placeholder="Tags Associated with Task (separated by a space)") }}
+
         </div>
-        <div class="field">
-            <div class="control">
-                {{ form.due_date.label(class_="label") }}
-                {{ form.due_date(class="input", placeholder="Due Date for Task") }}
-            </div>
+        <div class="mb-3">
+
+            {{ form.due_date.label(class_="form-label") }}
+            {{ form.due_date(class="form-control", placeholder="Due Date for Task") }}
+
         </div>
-        <div class="field">
-            <div class="control">
-                {% if modify %}
-                    {{ form.modify(class_="button is-link") }}
-               {% else %}
-                {{ form.submit(class_="button is-link") }}
-                {% endif %}
-            </div>
+        <div class="mb-3">
+
+            {% if modify %}
+                {{ form.modify(class_="btn btn-primary") }}
+            {% else %}
+                {{ form.submit(class_="btn btn-primary") }}
+            {% endif %}
+
         </div>
     </form>
 </div>

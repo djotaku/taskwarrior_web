@@ -4,18 +4,16 @@
     <section class="section" id="add_task">
         {{ render_partial('partials/add_task.html', form=form ) }}
     </section>
-    <section class="section">
         <div class="container" >
-            <div class="tabs is-toggle is-toggle-rounded">
-                <ul>
-                    <li id="overdueTab"><a hx-trigger="click" hx-target="#task_table" hx-get="/overdue" hx-on::after-request="flask_moment_render_all()">Overdue</a></li>
-                    <li id="todayTab"><a hx-trigger="click" hx-target="#task_table" hx-get="/due-today" hx-on::after-request="flask_moment_render_all()">Due Today</a></li>
-                    <li id="monthTab"><a hx-trigger="click" hx-target="#task_table" hx-get="/due-this-month" hx-on::after-request="flask_moment_render_all()">Due This Month</a></li>
-                    <li id="incompleteTab"><a hx-trigger="click" hx-target="#task_table" hx-get="/all-incomplete" hx-on::after-request="flask_moment_render_all()">All Incomplete Tasks</a></li>
-                    <li id="completedTab"><a hx-trigger="click" hx-target="#task_table" hx-get="/completed">Completed Tasks</a></li>
+            <div>
+                <ul class="nav nav-pills" role="tablist">
+                    <li class="nav-item" ><a id="overdueTab" class="nav-link" hx-trigger="click" hx-target="#task_table" hx-get="/overdue" hx-on::after-request="flask_moment_render_all()">Overdue</a></li>
+                    <li class="nav-item" ><a id="todayTab" class="nav-link" hx-trigger="click" hx-target="#task_table" hx-get="/due-today" hx-on::after-request="flask_moment_render_all()">Due Today</a></li>
+                    <li class="nav-item" ><a id="monthTab" class="nav-link" hx-trigger="click" hx-target="#task_table" hx-get="/due-this-month" hx-on::after-request="flask_moment_render_all()">Due This Month</a></li>
+                    <li class="nav-item" ><a id="incompleteTab" class="nav-link" hx-trigger="click" hx-target="#task_table" hx-get="/all-incomplete" hx-on::after-request="flask_moment_render_all()">All Incomplete Tasks</a></li>
+                    <li class="nav-item" ><a id="completedTab" class="nav-link" hx-trigger="click" hx-target="#task_table" hx-get="/completed">Completed Tasks</a></li>
                 </ul>
             </div>
             {{ render_partial('partials/task_table.html', tasks=tasks, tab=tab) }}
         </div>
-    </section>
 {% endblock %}

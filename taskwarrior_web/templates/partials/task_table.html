@@ -1,10 +1,12 @@
 <div class="table-container">
-    <table class="table is-striped sortable" id="task_table">
+    <table class="table table-striped sortable" id="task_table">
         <thead>
+        <tr>
         <th> Task</th>
         <th> Project</th>
         <th> Tags</th>
         <th> Due Date</th>
+        </tr>
         </thead>
         <tbody>
         {% for task in tasks %}
@@ -19,15 +21,15 @@
                 </td>
                 <td>{{ moment(task.due).format('LLL') }}</td>
                 <td>
-                    <button class="button is-green" hx-trigger="click" hx-target="#add_task" hx-post="/modify_task?task_id={{ task.uuid }}" >Modify</button>
+                    <button class="btn btn-success" hx-trigger="click" hx-target="#add_task" hx-post="/modify_task?task_id={{ task.uuid }}" >Modify</button>
                 </td>
                 <td>
                     {% if tab == "completed" %}
-                    <button class="button is-blue" hx-trigger="click" hx-target="#task_table"
+                    <button class="btn btn-primary" hx-trigger="click" hx-target="#task_table"
                             hx-post="/{{ tab }}?task_id={{ task.uuid }}" hx-on::after-request="flask_moment_render_all()"> Change Status to Incomplete
                     </button>
                     {% else %}
-                    <button class="button is-blue" hx-trigger="click" hx-target="#task_table"
+                    <button class="btn btn-primary" hx-trigger="click" hx-target="#task_table"
                             hx-post="/{{ tab }}?task_id={{ task.uuid }}" hx-on::after-request="flask_moment_render_all()"> Mark Completed
                     </button>
                     {% endif %}
