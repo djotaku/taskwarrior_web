@@ -68,6 +68,36 @@ To periodically sync the web interface with the server, you might want to set up
 ```
 That will run sync every minute.
 
+# Updating cert
+
+If you have the container running and you need to regenerate the
+certificates or modify their parameters.
+
+- Make sure that the container is running.
+- Execute a shell in the running container.
+  ```shell
+  docker exec -t -i \
+    <container-id> sh
+  ```
+- Go to `/var/taskd/pki` and delete all pem files, you should be left with
+  only the generate scripts (`generate*`) and the `vars` file.
+  ```shell
+  rm *pem
+  ```
+- Run.
+  ```shell
+  export CERT_BITS=4096
+  export CERT_EXPIRATION_DAYS=365
+  export CERT_ORGANIZATION="Göteborg Bit Factory"
+  export CERT_CN=localhost
+  export CERT_COUNTRY=SE
+  export CERT_STATE="Västra Götaland"
+  export CERT_LOCALITY="Göteborg"
+  ./generate
+  ```
+
+Then copy the client and ca certs to your computer.
+
 ## About the dependency I'm using
 
 For now I'm using the taskwarrior library developed by CoddingtonBear - the dev of Inthe.am. It can be found at https://github.com/coddingtonbear/python-taskwarrior - the link on pypi is broken. It looks like the pypi.org page points to the wrong repo. CoddingtonBear hasn't worked on it in a year, so it may break with newer versions of taskwarrior. For now I'm just going to go along with it. It looks like it (and also [taskw's](https://github.com/ralphbean/taskw) safe interface) just runs taskwarrior on the commandline and then grabs the output. I do something similar for [Snap-in-Time](https://github.com/djotaku/Snap-in-Time), so if I had to re-implement this in the future, I think I could do it, even if I had to write the library myself.
