@@ -239,3 +239,4 @@ fabric.properties
 
 # specific to this app
 taskwarrior_web/secrets_config
+.idea
