@@ -25,8 +25,22 @@ buildah build \
 Running with podman:
 
 ```bash
-
+podman run -dt --name taskchampion -p 8080:8080 -v taskchampion_sync:/var/lib/taskchampion-sync-server/data localhost/taskchampion-sync-server
 ```
+On the computer with your taskwarrior instance, run:
+
+```bash
+task config sync.encryption_secret <encryption_secret>
+```
+According to the official docs pwgen will give a good value.
+
+Then you need to run
+
+```bash
+task config sync.server.url               <url>
+task config sync.server.client_id         <client_id>
+```
+The url must have http or https. Client ID must be a valid UUID.
 
 
 
