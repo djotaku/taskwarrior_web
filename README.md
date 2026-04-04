@@ -40,7 +40,7 @@ Then you need to run
 task config sync.server.url               <url>
 task config sync.server.client_id         <client_id>
 ```
-The url must have http or https. Client ID must be a valid UUID.
+The url must have http or https. If you are not running at port 80 or 443, specify the port. Client ID must be a valid UUID.
 
 
 
