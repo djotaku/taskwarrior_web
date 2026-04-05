@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta, timezone
-import pytz
 from taskchampion import Replica, Status, Operations, Task
 import uuid
 

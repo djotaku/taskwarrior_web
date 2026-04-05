@@ -4,7 +4,7 @@
 
 ## Why this repo?
 
-Taskwarrior_web is meant for use by one user.
+Taskwarrior_web is meant for use by one user to be able to access, create, modify, and complete their tasks from the web.
 
 ## Instructions for taskwarrior_web using taskwarrior 3.x
 
@@ -42,7 +42,17 @@ task config sync.server.client_id         <client_id>
 ```
 The url must have http or https. If you are not running at port 80 or 443, specify the port. Client ID must be a valid UUID.
 
-
+- use create_new_password_hash() function in utility_functions.py
+- need a file called secrets_config with:
+- 
+```json
+{
+  "SECRET_KEY":"some random letters",
+  "user": {"username_you_want": 
+  {"password": "output of create_new_password_hash()"}}
+}
+```
+If you wish to run this web app as a container, the script I use to create the container with buildah is in the containers folder. This is the one I push to Docker Hub. (In the future I may consider pushing to the github container registry if that doesn't cost money)
 
 ## Instructions for taskwarrior_web using taskwarrior 2.x
 
@@ -52,14 +62,17 @@ The final release for taskwarrior 2.x is taskwarrior_web v1.1.
 Usage
 
 - Need taskwarrior installed
+- use create_new_password_hash() function in utility_functions.py
 - need a file called secrets_config with:
-
+- 
 ```json
 {
-  "SECRET_KEY":"some random letters"
+  "SECRET_KEY":"some random letters",
+  "user": {"username_you_want": 
+  {"password": "output of create_new_password_hash()"}}
 }
 ```
-- use create_new_password_hash() function in utility_functions.py
+
 
 I used the taskd container at https://github.com/ogarcia/docker-taskd which I have forked just in case. 
 
