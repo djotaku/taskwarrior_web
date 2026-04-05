@@ -1,14 +1,54 @@
 # taskwarrior_web
 
-WARNING: THIS CURRENTLY DOES NOT WORK WITH THE RECENTLY RELEASE TASKWARRIOR 3.0! They changed a ton about how syncing works. 
-
 ![screenshot](https://github.com/djotaku/taskwarrior_web/blob/main/taskwarrior_web/screenshots/Taskwarrior_web.png)
 
 ## Why this repo?
 
-With the demise of Inthe.am later this year and FreeCinc last year, there aren't any web interfaces for taskwarrior left. It turns out that taskserver, as written, doesn't really scale well for multiple users. So I'm going to write this UI for my needs. Feel free to use it if it works for you.
+Taskwarrior_web is meant for use by one user.
 
-##
+## Instructions for taskwarrior_web using taskwarrior 3.x
+
+### Usage
+
+- Need taskwarrior 3.x installed on your personal computer if you're syncing with the web interface.
+- Need the [taskchampion sync-server](https://github.com/GothenburgBitFactory/taskchampion-sync-server)
+  - Currently the easiest thing is to clone the repo, build the conatainer (with Docker or Buildah), and then run the server.  
+
+Example, building with buildah:
+
+```bash
+buildah build \
+  -t taskchampion-sync-server \
+  -f Dockerfile-sqlite
+# note: at the time I write this, I had to change the dockerfile to point at Rush 1.88
+```
+Running with podman:
+
+```bash
+podman run -dt --name taskchampion -p 8080:8080 -v taskchampion_sync:/var/lib/taskchampion-sync-server/data localhost/taskchampion-sync-server
+```
+On the computer with your taskwarrior instance, run:
+
+```bash
+task config sync.encryption_secret <encryption_secret>
+```
+According to the official docs pwgen will give a good value.
+
+Then you need to run
+
+```bash
+task config sync.server.url               <url>
+task config sync.server.client_id         <client_id>
+```
+The url must have http or https. If you are not running at port 80 or 443, specify the port. Client ID must be a valid UUID.
+
+
+
+## Instructions for taskwarrior_web using taskwarrior 2.x
+
+The final release for taskwarrior 2.x is taskwarrior_web v1.1.
+
+###
 Usage
 
 - Need taskwarrior installed
@@ -68,7 +108,7 @@ To periodically sync the web interface with the server, you might want to set up
 ```
 That will run sync every minute.
 
-# Updating cert
+### Updating cert
 
 If you have the container running and you need to regenerate the
 certificates or modify their parameters.
@@ -98,6 +138,6 @@ certificates or modify their parameters.
 
 Then copy the client and ca certs to your computer.
 
-## About the dependency I'm using
+### About the dependency I'm using
 
 For now I'm using the taskwarrior library developed by CoddingtonBear - the dev of Inthe.am. It can be found at https://github.com/coddingtonbear/python-taskwarrior - the link on pypi is broken. It looks like the pypi.org page points to the wrong repo. CoddingtonBear hasn't worked on it in a year, so it may break with newer versions of taskwarrior. For now I'm just going to go along with it. It looks like it (and also [taskw's](https://github.com/ralphbean/taskw) safe interface) just runs taskwarrior on the commandline and then grabs the output. I do something similar for [Snap-in-Time](https://github.com/djotaku/Snap-in-Time), so if I had to re-implement this in the future, I think I could do it, even if I had to write the library myself.
