@@ -35,12 +35,17 @@ def task_list_pending(due_date_start: datetime, due_date_end: datetime | None = 
 
 
 def task_list_overdue():
-    tasks = client.filter(status="pending")
+    tasks = []
+    task_dict = replica.all_tasks()
+    for uuid in task_dict.keys():
+        task = r.get_task(uuid)
+        if task.get_status () == Status.Pending:
+            tasks.append(task)
     filtered_tasks = [
-        task for task in tasks if task.due is not None
-    ]  # filter out tasks without due dates
+        task for task in tasks if task.get_due() is not None
+    ]  # filter out tasks without due dates 
     present = datetime.now().astimezone()
-    return [task for task in filtered_tasks if task.due < present]
+    return [task for task in filtered_tasks if task.get_due() < present]
 
 
 def task_list_completed():
