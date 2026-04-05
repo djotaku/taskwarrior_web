@@ -50,7 +50,13 @@ def task_list_overdue():
 
 def task_list_completed():
     """Return all completed tasks"""
-    return client.filter(status="completed")
+    tasks = []
+    task_dict = replica.all_tasks()
+    for uuid in task_dict.keys():
+        task = r.get_task(uuid)
+        if task.get_status () == Status.Completed:
+            tasks.append(task)
+    return tasks 
 
 
 def mark_task_completed(task_uuid: str):
