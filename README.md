@@ -52,7 +52,7 @@ The url must have http or https. If you are not running at port 80 or 443, speci
   {"password": "output of create_new_password_hash()"}}
 }
 ```
-If you wish to run this web app as a container, the script I use to create the container with buildah is in the containers folder. This is the one I push to Docker Hub. (In the future I may consider pushing to the github container registry if that doesn't cost money)
+If you wish to run this web app as a container, the script I use to create the container with buildah is create_container.sh. This is the one I push to Docker Hub. (In the future I may consider pushing to the github container registry if that doesn't cost money)
 
 ## Instructions for taskwarrior_web using taskwarrior 2.x
 
