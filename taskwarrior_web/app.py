@@ -117,6 +117,7 @@ def modify_task():
         return render_template(
             "partials/add_task.html", form=filled_out_form, modify=True
         )
+    return None
 
 
 @app.route("/tasks", methods=["GET", "POST"])
