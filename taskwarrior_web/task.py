@@ -1,29 +1,34 @@
 from datetime import datetime, timedelta
 import pytz
-from taskwarrior import Client, Task
+from taskchampion imporot Replica, Status
 
-client = Client()
+replica = Replica.new_on_disk("/root/.task/", False)
 
 
 def task_list_pending(due_date_start: datetime, due_date_end: datetime | None = None):
     """Return a list of tasks. Will add more features to this eventually for the sake of DRY."""
-    tasks = client.filter(status="pending")
+    tasks = []
+    task_dict = replica.all_tasks()
+    for uuid in task_dict.keys():
+        task = r.get_task(uuid)
+        if task.get_status () == Status.Pending:
+            tasks.append(task)
     filtered_tasks = [
-        task for task in tasks if task.due is not None
+        task for task in tasks if task.get_due() is not None
     ]  # filter out tasks without due dates
     if due_date_start and due_date_end:
         return [
             task
             for task in filtered_tasks
-            if due_date_start <= task.due <= due_date_end
+            if due_date_start <= task.get_due() <= due_date_end
         ]
     elif due_date_start:
         return [
             task
             for task in filtered_tasks
-            if task.due.year == due_date_start.year
-            and task.due.month == due_date_start.month
-            and task.due.day == due_date_start.day
+            if task.get_due().year == due_date_start.year
+            and task.get_due().month == due_date_start.month
+            and task.get_due().day == due_date_start.day
         ]
     else:
         return tasks
