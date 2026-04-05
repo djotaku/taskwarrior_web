@@ -10,7 +10,7 @@ def task_list_pending(due_date_start: datetime, due_date_end: datetime | None = 
     tasks = []
     task_dict = replica.all_tasks()
     for uuid in task_dict.keys():
-        task = r.get_task(uuid)
+        task = replica.get_task(uuid)
         if task.get_status () == Status.Pending:
             tasks.append(task)
     filtered_tasks = [
@@ -38,7 +38,7 @@ def task_list_overdue():
     tasks = []
     task_dict = replica.all_tasks()
     for uuid in task_dict.keys():
-        task = r.get_task(uuid)
+        task = replica.get_task(uuid)
         if task.get_status () == Status.Pending:
             tasks.append(task)
     filtered_tasks = [
@@ -53,7 +53,7 @@ def task_list_completed():
     tasks = []
     task_dict = replica.all_tasks()
     for uuid in task_dict.keys():
-        task = r.get_task(uuid)
+        task = replica.get_task(uuid)
         if task.get_status () == Status.Completed:
             tasks.append(task)
     return tasks 
@@ -61,9 +61,8 @@ def task_list_completed():
 
 def mark_task_completed(task_uuid: str):
     """Mark a task completed"""
-    our_task = client.get(uuid=task_uuid)
-    our_task.status = "completed"
-    client.modify(our_task)
+    our_task = replica.get_task(task_uuid) 
+    our_task.set_status() = Status.Completed # this is not this simple. Still trying to figure out on the VM. continue from here
 
 
 def add_task(task_description: str, task_project: str, tags: str, due_date: datetime):
