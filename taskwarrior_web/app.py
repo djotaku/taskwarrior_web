@@ -111,7 +111,7 @@ def modify_task():
             tags = this_task.get_tags()
             for tag in tags:
                 if tag.is_user():
-                    tag_string = tag_string + " " + tag
+                    tag_string = tag_string + " " + str(tag)
         filled_out_form = TaskForm(
             task=this_task.get_description(),
             project=this_task.get_value("project"),
