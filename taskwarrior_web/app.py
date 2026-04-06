@@ -106,12 +106,18 @@ def login():
 def modify_task():
     if request.args:
         this_task = task.get_task(request.args["task_id"])
-        tags = " ".join(this_task.tags) if this_task.tags else ""
+        tags = ""
+        if this_task.get_tags():
+            tags = this_task.get_tags()
+            for tag in tags:
+                if tag.is_user():
+                    tags = tags + " " + tag
+            tags = " ".join(this_task.tags)
         filled_out_form = TaskForm(
-            task=this_task.description,
-            project=this_task.project,
+            task=this_task.get_description(),
+            project=this_task.get_value("project"),
             tags=tags,
-            due_date=this_task.due,
+            due_date=this_task.get_due(),
             uuid=request.args["task_id"],
         )
         return render_template(

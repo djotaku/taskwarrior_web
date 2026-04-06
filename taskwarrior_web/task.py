@@ -110,5 +110,6 @@ def modify_task(
     task_to_modify.set_entry(due_date, operations)
     task_to_modify.set_value("project", task_project, operations)
     for tag in tag_list:
-        task_to_modify.add_tag(tag, operations)
+        this_tag = Tag(tag)
+        task_to_modify.add_tag(this_tag, operations)
     replica.commit_operations(operations)
