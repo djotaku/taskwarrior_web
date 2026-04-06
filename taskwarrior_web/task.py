@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta, timezone
-from taskchampion import Replica, Status, Operations, Task
+from taskchampion import Replica, Status, Operations, Tag
 import uuid
 
 replica = Replica.new_on_disk("/root/.task/", False)
@@ -76,7 +76,8 @@ def add_task(task_description: str, task_project: str, tags: str, due_date: date
     task.set_entry(datetime.now(timezone.utc), operations)
     task.set_value("project", task_project, operations)
     for tag in tag_list:
-        task.add_tag(tag, operations)
+        this_tag = Tag(tag)
+        task.add_tag(this_tag, operations)
     replica.commit_operations(operations)
 
 
