@@ -13,7 +13,9 @@
                 <td>{{ task.get_value("project") }}</td>
                 <td>{% if task.get_tags() %}
                     {% for tag in task.get_tags() %}
+                        {% if tag.is_user() %}
                         {{ tag }},
+                        {% endif %}
                     {% endfor %}
                 {% endif %}
                 </td>
