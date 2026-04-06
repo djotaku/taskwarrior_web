@@ -9,26 +9,26 @@
         <tbody>
         {% for task in tasks %}
             <tr>
-                <td>{{ task.description }}</td>
-                <td>{{ task.project }}</td>
-                <td>{% if task.tags %}
-                    {% for tag in task.tags %}
+                <td>{{ task.get_description() }}</td>
+                <td>{{ task.get_value("project") }}</td>
+                <td>{% if task.get_tags() %}
+                    {% for tag in task.get_tags() %}
                         {{ tag }},
                     {% endfor %}
                 {% endif %}
                 </td>
                 <td>{{ moment(task.get_due()).format('LLL') }}</td>
                 <td>
-                    <button class="button is-green" hx-trigger="click" hx-target="#add_task" hx-post="/modify_task?task_id={{ task.uuid }}" >Modify</button>
+                    <button class="button is-green" hx-trigger="click" hx-target="#add_task" hx-post="/modify_task?task_id={{ task.get_uuid() }}" >Modify</button>
                 </td>
                 <td>
                     {% if tab == "completed" %}
                     <button class="button is-blue" hx-trigger="click" hx-target="#task_table"
-                            hx-post="/{{ tab }}?task_id={{ task.uuid }}" hx-on::after-request="flask_moment_render_all()"> Change Status to Incomplete
+                            hx-post="/{{ tab }}?task_id={{ task.get_uuid() }}" hx-on::after-request="flask_moment_render_all()"> Change Status to Incomplete
                     </button>
                     {% else %}
                     <button class="button is-blue" hx-trigger="click" hx-target="#task_table"
-                            hx-post="/{{ tab }}?task_id={{ task.uuid }}" hx-on::after-request="flask_moment_render_all()"> Mark Completed
+                            hx-post="/{{ tab }}?task_id={{ task.get_uuid() }}" hx-on::after-request="flask_moment_render_all()"> Mark Completed
                     </button>
                     {% endif %}
                 </td>
