@@ -1,7 +1,7 @@
 #! /bin/bash
 
 echo "Build from dhi.io/python:3.13"
-ctr=$(buildah from dhi.io/python:3.13-debian13-dev)
+ctr=$(buildah from docker.io/python:3.13-slim)
 
 echo "Upgrade pip"
 buildah run $ctr /bin/bash -c 'pip install -U pip'
