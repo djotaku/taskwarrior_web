@@ -94,10 +94,10 @@ def login():
         user = load_user(form.username.data)
         if verify_password(user.get_id(), form.password.data):
             login_user(user, form.remember_me.data)
-            next = request.args.get("next")
-            if next is None or not next.startswith("/"):
-                next = url_for("index")
-            return redirect(next)
+            next_ = request.args.get("next")
+            if next_ is None or not next_.startswith("/"):
+                next_ = url_for("index")
+            return redirect(next_)
     return render_template("login.html", form=form)
 
 
@@ -116,7 +116,7 @@ def modify_task():
             task=this_task.get_description(),
             project=this_task.get_value("project"),
             tags=tag_string,
-            due_date=this_task.get_due(),
+            due_date=this_task.get_due(), # date didn't get pushed to form
             uuid=request.args["task_id"],
         )
         return render_template(

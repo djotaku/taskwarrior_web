@@ -107,7 +107,7 @@ def modify_task(
     tag_list = tags.split()
     task_to_modify = replica.get_task(task_uuid)
     task_to_modify.set_description(task_description, operations)
-    task_to_modify.set_entry(due_date, operations)
+    task_to_modify.set_entry(due_date.astimezone(), operations)
     task_to_modify.set_value("project", task_project, operations)
     for tag in tag_list:
         this_tag = Tag(tag)
