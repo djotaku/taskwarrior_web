@@ -74,7 +74,7 @@ def add_task(task_description: str, task_project: str, tags: str, due_date: date
     task = replica.create_task(task_uuid, operations)
     task.set_description(task_description, operations)
     task.set_entry(datetime.now(timezone.utc), operations)
-    task.set_due(due_date, operations)
+    task.set_due(due_date.astimezone(timezone.utc), operations)
     task.set_value("project", task_project, operations)
     task.set_status(Status.Pending, operations)
     for tag in tag_list:
@@ -109,7 +109,7 @@ def modify_task(
     tag_list = tags.split()
     task_to_modify = replica.get_task(task_uuid)
     task_to_modify.set_description(task_description, operations)
-    task_to_modify.set_due(due_date, operations) # needs fix still
+    task_to_modify.set_due(due_date.astimezone(timezone.utc), operations)
     task_to_modify.set_value("project", task_project, operations)
     for tag in tag_list:
         this_tag = Tag(tag)
