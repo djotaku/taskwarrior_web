@@ -72,6 +72,7 @@ def add_task(task_description: str, task_project: str, tags: str, due_date: date
     operations = Operations()
     task_uuid = str(uuid.uuid4())
     task = replica.create_task(task_uuid, operations)
+    replica.commit_operations(operations)
     task.set_description(task_description, operations)
     task.set_entry(datetime.now(timezone.utc), operations)
     task.set_value("project", task_project, operations)
