@@ -8,11 +8,15 @@ Taskwarrior_web is meant for use by one user to be able to access, create, modif
 
 ## Instructions for taskwarrior_web using taskwarrior 3.x
 
-### Usage
+These instructions assume the user wants to access their tasks from the web. You would use taskwarrior as normal on your computer to interface with the tasks. Then you would sync using taskchampion-sync. Once the sync is complete, you can them access your tasks from the web.
+
+If you wish to do so, you can run this locally. It would then function as a web interface to your taskwarrior instance. In that case, you don't need the sync server and you wouldn't want to use the container. Instead, clone the repo, change the replica disk location in the task.py file. Then run the app.py file.
+
+### Setup
 
 - Need taskwarrior 3.x installed on your personal computer if you're syncing with the web interface.
 - Need the [taskchampion sync-server](https://github.com/GothenburgBitFactory/taskchampion-sync-server)
-  - Currently the easiest thing is to clone the repo, build the conatainer (with Docker or Buildah), and then run the server.  
+  - Currently, the easiest way to run the server is to clone the repo, build the container (with Docker or Buildah), and then run the server.  
 
 Example, building with buildah:
 
@@ -20,7 +24,7 @@ Example, building with buildah:
 buildah build \
   -t taskchampion-sync-server \
   -f Dockerfile-sqlite
-# note: at the time I write this, I had to change the dockerfile to point at Rush 1.88
+# note: at the time I write this, I had to change the Dockerfile from the taskchampion sync server repo to point at Rust 1.88
 ```
 Running with podman:
 
@@ -32,7 +36,7 @@ On the computer with your taskwarrior instance, run:
 ```bash
 task config sync.encryption_secret <encryption_secret>
 ```
-According to the official docs pwgen will give a good value.
+According to the official docs pwgen will give a good value for the encryption secret.
 
 Then you need to run
 
@@ -40,10 +44,10 @@ Then you need to run
 task config sync.server.url               <url>
 task config sync.server.client_id         <client_id>
 ```
-The url must have http or https. If you are not running at port 80 or 443, specify the port. Client ID must be a valid UUID.
+The url must have http or https. If you are not running at port 80 or 443, specify the port. Client ID must be a valid UUID. (Use a UUID program to create a valid UUID)
 
 - use create_new_password_hash() function in utility_functions.py
-- need a file called secrets_config with:
+- create a file called secrets_config with:
 - 
 ```json
 {
@@ -52,11 +56,13 @@ The url must have http or https. If you are not running at port 80 or 443, speci
   {"password": "output of create_new_password_hash()"}}
 }
 ```
-If you wish to run this web app as a container, the script I use to create the container with buildah is create_container.sh. This is the one I push to Docker Hub. (In the future I may consider pushing to the github container registry if that doesn't cost money)
+If you wish to run this web app as a container, the script I use to create the container with buildah is create_image_secure.sh. This is the one I push to Docker Hub. (In the future I may consider pushing to the github container registry if that doesn't cost money)
+
+TODO: Add instructions for using running the container.
 
 ## Instructions for taskwarrior_web using taskwarrior 2.x
 
-The final release for taskwarrior 2.x is taskwarrior_web v1.1.
+The final release for use with taskwarrior 2.x is taskwarrior_web v1.1.
 
 ###
 Usage
@@ -72,7 +78,6 @@ Usage
   {"password": "output of create_new_password_hash()"}}
 }
 ```
-
 
 I used the taskd container at https://github.com/ogarcia/docker-taskd which I have forked just in case. 
 
@@ -95,7 +100,7 @@ podman run -d \
                               ghcr.io/connectical/taskd
 ```
 
-After that, just use the instructions at https://gothenburgbitfactory.github.io/taskserver-setup/ to get your user created, etc. I ran into an error at first where I had to go into the config file and change the server it was binding to, but then had to change it back to 0.0.0.0 after the certs were correctly created. I also had to change the request.limit to 0 to get my initial sync to work.
+After that, use the instructions at https://gothenburgbitfactory.github.io/taskserver-setup/ to get your user created, etc. I ran into an error at first where I had to go into the config file and change the server it was binding to, but then had to change it back to 0.0.0.0 after the certs were correctly created. I also had to change the request.limit to 0 to get my initial sync to work.
 
 Keep going on those setup instructions to set up your local computer to sync. It will generate involve the .pem files.
 
@@ -105,7 +110,7 @@ You can then run this web app in a container like so:
 podman run -d \
           --name=taskwarrior_web -e TZ=America/New_York -v ./taskrc:/root/.taskrc:Z \
                             -v taskwarrior_web:/taskwarrior_web -v taskwarrior_web_tasks:/root/.task \
-                            -p 8000:8000  djotaku/taskwarrior_web
+                            -p 8000:8000  djotaku/taskwarrior_web:20240309
 ```
 
 Go into your taskwarrior_web container (eg podman exec -ti taskwarrior_web /bin/sh) and run task to generate your .taskrc.
@@ -123,8 +128,7 @@ That will run sync every minute.
 
 ### Updating cert
 
-If you have the container running and you need to regenerate the
-certificates or modify their parameters.
+If you have the container running, and you need to regenerate the certificates or modify their parameters.
 
 - Make sure that the container is running.
 - Execute a shell in the running container.
@@ -150,7 +154,3 @@ certificates or modify their parameters.
   ```
 
 Then copy the client and ca certs to your computer.
-
-### About the dependency I'm using
-
-For now I'm using the taskwarrior library developed by CoddingtonBear - the dev of Inthe.am. It can be found at https://github.com/coddingtonbear/python-taskwarrior - the link on pypi is broken. It looks like the pypi.org page points to the wrong repo. CoddingtonBear hasn't worked on it in a year, so it may break with newer versions of taskwarrior. For now I'm just going to go along with it. It looks like it (and also [taskw's](https://github.com/ralphbean/taskw) safe interface) just runs taskwarrior on the commandline and then grabs the output. I do something similar for [Snap-in-Time](https://github.com/djotaku/Snap-in-Time), so if I had to re-implement this in the future, I think I could do it, even if I had to write the library myself.
