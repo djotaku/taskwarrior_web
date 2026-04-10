@@ -104,25 +104,25 @@ def login():
 @app.route("/modify_task", methods=["POST"])
 @login_required
 def modify_task():
-    if request.args:
-        this_task = task.get_task(request.args["task_id"])
-        tag_string = ""
-        if this_task.get_tags():
-            tags = this_task.get_tags()
-            for tag in tags:
-                if tag.is_user():
-                    tag_string = tag_string + " " + str(tag)
-        filled_out_form = TaskForm(
-            task=this_task.get_description(),
-            project=this_task.get_value("project"),
-            tags=tag_string,
-            due_date=this_task.get_due(), # date didn't get pushed to form
-            uuid=request.args["task_id"],
-        )
-        return render_template(
-            "partials/add_task.html", form=filled_out_form, modify=True
-        )
-    return None
+    if not request.args:
+        return None
+    this_task = task.get_task(request.args["task_id"])
+    tag_string = ""
+    if this_task.get_tags():
+        tags = this_task.get_tags()
+        for tag in tags:
+            if tag.is_user():
+                tag_string = f"{tag_string} {str(tag)}"
+    filled_out_form = TaskForm(
+        task=this_task.get_description(),
+        project=this_task.get_value("project"),
+        tags=tag_string,
+        due_date=this_task.get_due(), # date didn't get pushed to form
+        uuid=request.args["task_id"],
+    )
+    return render_template(
+        "partials/add_task.html", form=filled_out_form, modify=True
+    )
 
 
 @app.route("/tasks", methods=["GET", "POST"])
