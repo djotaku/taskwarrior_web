@@ -19,7 +19,11 @@
                     {% endfor %}
                 {% endif %}
                 </td>
+            {% if task.get_due() %}
                 <td>{{ moment(task.get_due()).format('LLL') }}</td>
+            {% else %}
+            <td>No Due Date Set</td>
+            {% endif %}
                 <td>
                     <button class="button is-green" hx-trigger="click" hx-target="#add_task" hx-post="/modify_task?task_id={{ task.get_uuid() }}" >Modify</button>
                 </td>
