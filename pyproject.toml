@@ -14,11 +14,16 @@ dependencies=[
     "flask-moment>=1.0.6",
     "taskchampion-py>=2.0.2",
     "uuid>=1.30",
-    "ty>=0.0.29",
-]
+    ]
+requires-python = "== 3.13.*"
 authors=[{name="Eric Mesa", email="ericsbinaryworld@gmail.com"}]
 description="A web interface for taskwarrior"
 readme="README.md"
 keywords=["taskwarrior", "flask"]
 [project.urls]
 Repository="https://github.com/djotaku/taskwarrior_web"
+
+[dependency-groups]
+dev = [
+    "ty>=0.0.29",
+]
