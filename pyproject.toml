@@ -1,6 +1,6 @@
 [build-system]
-requires = ["setuptools >= 61.0"]
-build-backend = "setuptools.build_meta"
+requires = ["uv_build >= 0.10.10, <0.11.0"]
+build-backend = "uv_build"
 
 [project]
 name="taskwarrior_web"
@@ -14,6 +14,7 @@ dependencies=[
     "flask-moment>=1.0.6",
     "taskchampion-py>=2.0.2",
     "uuid>=1.30",
+    "ty>=0.0.29",
 ]
 authors=[{name="Eric Mesa", email="ericsbinaryworld@gmail.com"}]
 description="A web interface for taskwarrior"
