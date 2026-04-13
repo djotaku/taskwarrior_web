@@ -1,14 +1,7 @@
 #! /bin/bash
 
-echo "Build from dhi.io/python:3.13"
-ctr=$(buildah from dhi.io/python:3.13-debian13-dev)
-
-echo "Upgrade pip"
-buildah run $ctr /bin/bash -c 'pip install -U pip'
-
-echo "Install taskwarrior, git, and m"
-buildah run $ctr /bin/bash -c 'apt update'
-buildah run $ctr /bin/bash -c 'apt install taskwarrior git gcc -y'
+echo "Build from localhost/tw_p1"
+ctr=$(buildah from localhost/tw_p1)
 
 buildah run $ctr /bin/sh -c 'git clone https://github.com/djotaku/taskwarrior_web.git'
 
