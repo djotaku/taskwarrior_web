@@ -40,6 +40,7 @@ def task_list_pending(due_date_start: datetime, due_date_end: datetime | None = 
 
 
 def task_list_overdue():
+    replica = _new_replica()
     tasks = []
     task_dict = replica.all_tasks()
     for uuid in task_dict.keys():
@@ -55,6 +56,7 @@ def task_list_overdue():
 
 def task_list_completed():
     """Return all completed tasks"""
+    replica = _new_replica()
     tasks = []
     task_dict = replica.all_tasks()
     for uuid in task_dict.keys():
@@ -66,6 +68,7 @@ def task_list_completed():
 
 def mark_task_completed(task_uuid: str):
     """Mark a task completed"""
+    replica = _new_replica()
     our_task = replica.get_task(task_uuid)
     operations = Operations()
     our_task.set_status(Status.Completed, operations)
@@ -73,6 +76,7 @@ def mark_task_completed(task_uuid: str):
 
 
 def add_task(task_description: str, task_project: str, tags: str, due_date: datetime):
+    replica = _new_replica()
     tag_list = tags.split()
     operations = Operations()
     task_uuid = str(uuid.uuid4())
@@ -89,6 +93,7 @@ def add_task(task_description: str, task_project: str, tags: str, due_date: date
 
 
 def mark_task_incomplete(task_uuid: str):
+    replica = _new_replica()
     our_task = replica.get_task(task_uuid)
     operations = Operations()
     our_task.set_status(Status.Pending, operations)
@@ -100,6 +105,7 @@ def get_task(task_uuid: str):
 
     Currently only used when getting a task for modification.
     """
+    replica = _new_replica()
     return replica.get_task(task_uuid)
 
 
@@ -110,6 +116,7 @@ def modify_task(
     due_date: datetime,
     task_uuid: str,
 ):
+    replica = _new_replica()
     operations = Operations()
     tag_list = tags.split()
     task_to_modify = replica.get_task(task_uuid)
