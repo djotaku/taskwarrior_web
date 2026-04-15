@@ -14,7 +14,8 @@ dependencies=[
     "flask-moment>=1.0.6",
     "taskchampion-py>=2.0.2",
     "uuid>=1.30",
-    ]
+    "pytz>=2026.1.post1",
+]
 requires-python = "== 3.13.*"
 authors=[{name="Eric Mesa", email="ericsbinaryworld@gmail.com"}]
 description="A web interface for taskwarrior"
