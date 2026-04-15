@@ -2,15 +2,20 @@ from datetime import datetime, timedelta, timezone
 from taskchampion import Replica, Status, Operations, Tag
 import uuid
 
-replica = Replica.new_on_disk("/root/.task/", False)
+TASK_DIR = "/root/.task/"
+
+def _new_replica() -> Replica:
+    """Create a new Replica instance for the current thread."""
+    return Replica.new_on_disk(TASK_DIR, False)
 
 
 def task_list_pending(due_date_start: datetime, due_date_end: datetime | None = None):
     """Return a list of tasks. Will add more features to this eventually for the sake of DRY."""
+    replica = _new_replica()
     tasks = []
     task_dict = replica.all_tasks()
-    for uuid in task_dict.keys():
-        task = replica.get_task(uuid)
+    for uuid_ in task_dict.keys():
+        task = replica.get_task(uuid_)
         if task.get_status () == Status.Pending:
             tasks.append(task)
     filtered_tasks = [
@@ -31,7 +36,7 @@ def task_list_pending(due_date_start: datetime, due_date_end: datetime | None = 
             and task.get_due().day == due_date_start.day
         ]
     else:
-        return tasks
+       return tasks
 
 
 def task_list_overdue():
@@ -43,7 +48,7 @@ def task_list_overdue():
             tasks.append(task)
     filtered_tasks = [
         task for task in tasks if task.get_due() is not None
-    ]  # filter out tasks without due dates 
+    ]  # filter out tasks without due dates
     present = datetime.now().astimezone()
     return [task for task in filtered_tasks if task.get_due() < present]
 
@@ -56,7 +61,7 @@ def task_list_completed():
         task = replica.get_task(uuid)
         if task.get_status () == Status.Completed:
             tasks.append(task)
-    return tasks 
+    return tasks
 
 
 def mark_task_completed(task_uuid: str):
