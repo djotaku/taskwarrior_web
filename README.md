@@ -18,6 +18,7 @@ If you wish to do so, you can run this locally. It would then function as a web 
 - Need the [taskchampion sync-server](https://github.com/GothenburgBitFactory/taskchampion-sync-server)
   - Currently, the easiest way to run the server is to clone the repo, build the container (with Docker or Buildah), and then run the server.  
 
+#### Task Champion Sync Server Setup
 Example, building with buildah:
 
 ```bash
@@ -46,9 +47,11 @@ task config sync.server.client_id         <client_id>
 ```
 The url must have http or https. If you are not running at port 80 or 443, specify the port. Client ID must be a valid UUID. (Use a UUID program to create a valid UUID)
 
+#### Taskwarrior_web Setup
+
 - use create_new_password_hash() function in utility_functions.py
 - create a file called secrets_config with:
-- 
+ 
 ```json
 {
   "SECRET_KEY":"some random letters",
