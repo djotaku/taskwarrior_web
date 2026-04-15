@@ -25,7 +25,6 @@ buildah run $ctr /bin/bash -c 'ln -snf /usr/share/zoneinfo/America/New_York /etc
 
 echo "set the command to run"
 buildah config --cmd "gunicorn --chdir taskwarrior_web/taskwarrior_web -b 0.0.0.0:8000 app:app --reload" $ctr
-buildah config --cmd "python -m taskwarrior_web.app" $ctr
 
 echo "commit the image"
 buildah commit $ctr taskwarrior_web
