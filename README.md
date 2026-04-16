@@ -61,7 +61,17 @@ The url must have http or https. If you are not running at port 80 or 443, speci
 ```
 If you wish to run this web app as a container, the scripts I use to create the container with buildah are in the Container folder. This is the one I push to Docker Hub. (In the future I may consider pushing to the github container registry if that doesn't cost money)
 
-TODO: Add instructions for using running the container.
+I switched to basing the image on Fedora because Debian didn't have the right taskwarrior version and it wasn't available in backports. 
+
+You might run the container like this: (copy your .taskrc from your computer to the server)
+
+```bash
+podman run -d \
+          --name=taskwarrior_web -e TZ=America/New_York  -v ./taskrc:/root/.taskrc:z \
+                            -v ./secrets_config:/taskwarrior_web/src/secrets_config:Z -v taskwarrior_web_tasks_v3:/root/.task \
+                            -p 8000:8000  --network podman djotaku/taskwarrior_web:2.3
+
+```
 
 ## Instructions for taskwarrior_web using taskwarrior 2.x
 
