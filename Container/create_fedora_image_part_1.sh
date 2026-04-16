@@ -5,7 +5,7 @@ ctr=$(buildah from docker.io/fedora:43)
 
 echo "Install taskwarrior, git, python, gcc"
 buildah run $ctr /bin/bash -c 'dnf update -y'
-buildah run $ctr /bin/bash -c 'dnf install git gcc -y'
+buildah run $ctr /bin/bash -c 'dnf install git gcc python3-pip python -y'
 buildah run $ctr /bin/bash -c 'dnf install task -y'
 
 echo "commit the image"

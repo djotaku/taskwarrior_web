@@ -13,7 +13,7 @@ buildah run $ctr /bin/bash -c 'source /taskwarrior_web/venv/bin/activate'
 
 echo "Install the requirements and Gunicorn"
 
-buildah run $ctr /bin/sh -c 'pip install -r /taskwarrior_web/src/requirements.txt'
+buildah run $ctr /bin/sh -c 'pip install -r /taskwarrior_web/requirements.txt'
 buildah run $ctr /bin/sh -c 'pip install gunicorn'
 
 echo "Set the volumes"
