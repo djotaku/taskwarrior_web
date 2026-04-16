@@ -238,5 +238,5 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 
 # specific to this app
-src/taskwarrior_web/secrets_config
+src/secrets_config
 .idea
