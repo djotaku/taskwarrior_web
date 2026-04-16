@@ -3,6 +3,8 @@
 echo "Build from localhost/tw_p1"
 ctr=$(buildah from localhost/tw_p1)
 
+buildah run $ctr /bin/sh -c 'touch /root/.taskrc'
+
 buildah run $ctr /bin/sh -c 'git clone https://github.com/djotaku/taskwarrior_web.git'
 
 echo "Create the virtual environment"
@@ -17,8 +19,6 @@ buildah run $ctr /bin/sh -c 'cd /taskwarrior_web'
 buildah run $ctr /bin/sh -c '/usr/sbin/python3.13 -m ensurepip --upgrade'
 buildah run $ctr /bin/sh -c 'python3.13 -m pip install -r /taskwarrior_web/requirements.txt'
 buildah run $ctr /bin/sh -c 'python3.13 -m pip install gunicorn'
-
-buildah run $ctr /bin/sh -c 'touch /root/.taskrc'
 
 echo "Set the volumes"
 buildah config --volume /taskwarrior_web/ $ctr
