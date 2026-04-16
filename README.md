@@ -59,7 +59,7 @@ The url must have http or https. If you are not running at port 80 or 443, speci
   {"password": "output of create_new_password_hash()"}}
 }
 ```
-If you wish to run this web app as a container, the script I use to create the container with buildah is create_image_secure.sh. This is the one I push to Docker Hub. (In the future I may consider pushing to the github container registry if that doesn't cost money)
+If you wish to run this web app as a container, the scripts I use to create the container with buildah are in the Container folder. This is the one I push to Docker Hub. (In the future I may consider pushing to the github container registry if that doesn't cost money)
 
 TODO: Add instructions for using running the container.
 

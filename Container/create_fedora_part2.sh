@@ -5,16 +5,11 @@ ctr=$(buildah from localhost/tw_p1)
 
 buildah run $ctr /bin/sh -c 'git clone https://github.com/djotaku/taskwarrior_web.git'
 
-echo "Create the virtual environment"
-buildah run $ctr /bin/sh -c 'python -m venv /taskwarrior_web/venv'
+buildah run $ctr /bin/sh -c 'curl -LsSf https://astral.sh/uv/install.sh | sh'
 
-echo "Activate the virtual environment"
-buildah run $ctr /bin/bash -c 'source /taskwarrior_web/venv/bin/activate'
+buildah run $ctr /bin/sh -c '/root/.local/bin/uv python install 3.13'
 
-echo "Install the requirements and Gunicorn"
 
-buildah run $ctr /bin/sh -c 'pip install -r /taskwarrior_web/src/requirements.txt'
-buildah run $ctr /bin/sh -c 'pip install gunicorn'
 
 echo "Set the volumes"
 buildah config --volume /taskwarrior_web/ $ctr
