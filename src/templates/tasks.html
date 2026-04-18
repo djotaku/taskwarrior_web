@@ -2,20 +2,28 @@
 
 {% block content %}
     <section class="section" id="add_task">
-        {{ render_partial('partials/add_task.html', form=form ) }}
+        will re-add form here
     </section>
     <section class="section">
         <div class="container" >
-            <div class="tabs is-toggle is-toggle-rounded">
-                <ul>
-                    <li id="overdueTab"><a hx-trigger="click" hx-target="#task_table" hx-get="/overdue" hx-on::after-request="flask_moment_render_all()">Overdue</a></li>
-                    <li id="todayTab"><a hx-trigger="click" hx-target="#task_table" hx-get="/due-today" hx-on::after-request="flask_moment_render_all()">Due Today</a></li>
-                    <li id="monthTab"><a hx-trigger="click" hx-target="#task_table" hx-get="/due-this-month" hx-on::after-request="flask_moment_render_all()">Due This Month</a></li>
-                    <li id="incompleteTab"><a hx-trigger="click" hx-target="#task_table" hx-get="/all-incomplete" hx-on::after-request="flask_moment_render_all()">All Incomplete Tasks</a></li>
-                    <li id="completedTab"><a hx-trigger="click" hx-target="#task_table" hx-get="/completed">Completed Tasks</a></li>
-                </ul>
+            <div class="tabs is-toggle is-toggle-rounded" id="due_dates">
+
             </div>
-            {{ render_partial('partials/task_table.html', tasks=tasks, tab=tab) }}
+
+            <div class="table-container">
+    <table class="table is-striped sortable" id="task_table">
+        <thead>
+        <th> Task</th>
+        <th> Project</th>
+        <th> Tags</th>
+        <th> Due Date</th>
+        </thead>
+        <tbody id="task_table_body">
+
+        </tbody>
+    </table>
+</div>
         </div>
     </section>
+    <script type="py" config="{{ url_for('static', filename='./conf.json')}}" src="{{ url_for('static', filename='./main.py')}}"></script>
 {% endblock %}

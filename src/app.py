@@ -54,6 +54,7 @@ login_manager.login_view = "login"
 login_manager.init_app(app)
 
 
+
 def find_end(date: datetime, date_range: str) -> int:
     """Find difference to end of the month."""
     if date_range == "month":
@@ -128,29 +129,30 @@ def modify_task():
 @app.route("/tasks", methods=["GET", "POST"])
 @login_required
 def tasks():
-    form = TaskForm()
-    if form.validate_on_submit():
-        if form.submit.data:
-            task.add_task(
-                task_description=form.task.data,
-                task_project=form.project.data,
-                tags=form.tags.data,
-                due_date=form.due_date.data,
-            )
-        else:
-            task.modify_task(
-                task_description=form.task.data,
-                task_project=form.project.data,
-                tags=form.tags.data,
-                due_date=form.due_date.data,
-                task_uuid=form.uuid.data,
-            )
-        return redirect(url_for("tasks"))
-
-    starting_tasks = task.task_list_pending(None)
-    return render_template(
-        "tasks.html", tasks=starting_tasks, form=form, tab="all-incomplete"
-    )
+    # form = TaskForm()
+    # if form.validate_on_submit():
+    #     if form.submit.data:
+    #         task.add_task(
+    #             task_description=form.task.data,
+    #             task_project=form.project.data,
+    #             tags=form.tags.data,
+    #             due_date=form.due_date.data,
+    #         )
+    #     else:
+    #         task.modify_task(
+    #             task_description=form.task.data,
+    #             task_project=form.project.data,
+    #             tags=form.tags.data,
+    #             due_date=form.due_date.data,
+    #             task_uuid=form.uuid.data,
+    #         )
+    #     return redirect(url_for("tasks"))
+    #
+    # starting_tasks = task.task_list_pending(None)
+    # return render_template(
+    #     "tasks.html", tasks=starting_tasks, form=form, tab="all-incomplete"
+    # )
+    return render_template("tasks.html")
 
 
 @app.route("/overdue", methods=["GET", "POST"])
