@@ -3,7 +3,7 @@ from pyscript import web, when, display
 test_tasks = {"UUID": {"Description": "Test Task",
                        "Project": "Test Project",
                        "Tags": "Test Tag",
-                       "Due Date": "2023-01-01"},
+                       "Due Date": "2026-01-01"},
               "UUID2": {"Description": "Test Task 2",
                         "Project": "Test Project 2",
                         "Tags": "Test Tag 2",
@@ -27,9 +27,6 @@ def create_task_table(tasks):
                                     web.td(task["Tags"]), web.td(task["Due Date"]),
                                     web.td(web.button("Modify", classes="button is-blue")),
                                     web.td(web.button("Completed", classes="button is-blue")), id=uuid))
-
-
-
 
 # Add to the page.
 create_tabs()
